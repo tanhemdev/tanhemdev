@@ -2,13 +2,13 @@
 
 <p align="center"><sub><em>
 Cognitive science taught me how people think. Data science taught me how to measure it.<br />
-I build products at the intersection of both — where behavioral insight meets real-world impact.<br />
+I build products at the intersection of both where behavioral insight meets real-world impact.<br />
 From a diabetes management platform inspired by my twin sister's diagnosis<br />
 to shipping AI tools at Kaiser Permanente,<br />
 every project starts with the same question: what does this person actually need?
 </em></sub></p>
 
-**[tanyahemdev.com →](https://tanyahemdev.com)** · **[tanhemdev@gmail.com](mailto:tanhemdev@gmail.com)**
+**[tanyahemdev.com →](https://tanyahemdev.com)** · **[tanyahemdev@berkeley.edu](mailto:tanyahemdev@berkeley.edu)**
 
 ---
 
@@ -93,7 +93,7 @@ every project starts with the same question: what does this person actually need
 
 ## Education
 
-**UC Berkeley** — B.A. Cognitive Science + B.A. Data Science (Double Major)
+**UC Berkeley** — B.A. Cognitive Science + B.A. Data Science 
 
 Coursework spanning behavioral economics, machine learning, statistical inference, and product design. Research at the intersection of how people think and how data shapes better experiences.
 
