@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tanya Hemdev — Pixel Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --sky1:#ffd6e0;--sky2:#c2e9fb;--sky3:#ffecd2;
+  --bridge:#e24a33;--bridge-dark:#8b2500;
+  --water:#6ec6e6;--water-dark:#1a3a4a;
+  --menu-bg:rgba(255,255,255,.82);--menu-text:#222;
+  --win-bg:#fff;--win-title:#e8e8e8;--win-border:#ccc;
+  --icon-label:#222;--note-bg:#fff9c4;--note-shadow:rgba(0,0,0,.15);
+  --desktop-text:#fff;
+  --dock-bg:rgba(255,255,255,.25);
+}
+.dark{
+  --sky1:#0d1b2a;--sky2:#1b2838;--sky3:#162032;
+  --water:#0a1628;--water-dark:#050d18;
+  --menu-bg:rgba(30,30,30,.9);--menu-text:#eee;
+  --win-bg:#1e1e1e;--win-title:#2d2d2d;--win-border:#444;
+  --icon-label:#eee;--note-bg:#3a3520;--note-shadow:rgba(0,0,0,.4);
+  --desktop-text:#eee;
+  --dock-bg:rgba(0,0,0,.4);
+}
+html,body{height:100%;overflow:hidden;font-family:'Press Start 2P',monospace;image-rendering:pixelated}
+
+/* ===== BOOT SCREEN ===== */
+#boot{position:fixed;inset:0;z-index:9999;background:#1a1a2e;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .6s}
+#boot.hidden{opacity:0;pointer-events:none}
+#boot .logo{font-size:48px;margin-bottom:30px}
+#boot .bar-wrap{width:200px;height:8px;background:#333;border-radius:4px;overflow:hidden;border:1px solid #555}
+#boot .bar-fill{height:100%;width:0;background:linear-gradient(90deg,#b5f542,#c8a2ff);transition:width 2.5s ease-in-out}
+#boot .label{color:#888;font-size:7px;margin-top:12px;letter-spacing:1px}
+
+/* ===== BACKGROUND & SKY ===== */
+#scene{position:fixed;inset:0;overflow:hidden;transition:background 3s}
+#scene.day{background:linear-gradient(180deg,var(--sky2) 0%,var(--sky1) 40%,var(--sky3) 70%,var(--water) 100%)}
+#scene.sunset{background:linear-gradient(180deg,#2d1b69 0%,#e24a68 30%,#ff9a56 55%,#ffd89b 70%,var(--water) 100%)}
+#scene.night{background:linear-gradient(180deg,#0d1b2a 0%,#1b2838 40%,#162032 70%,var(--water-dark) 100%)}
+
+/* Stars (night only) */
+.star{position:absolute;background:#fff;border-radius:50%;opacity:0;transition:opacity 2s}
+.night .star{opacity:.7}
+.star.twinkle{animation:twinkle 2s infinite alternate}
+@keyframes twinkle{0%{opacity:.3}100%{opacity:.9}}
+
+/* ===== GOLDEN GATE BRIDGE (pixel art) ===== */
+#bridge{position:absolute;bottom:18%;left:50%;transform:translateX(-50%);width:700px;height:220px}
+#bridge svg{width:100%;height:100%}
+
+/* ===== CLOUDS ===== */
+.cloud{position:absolute;opacity:.7;filter:blur(0.5px)}
+.cloud svg{display:block}
+@keyframes float-cloud{0%{transform:translateX(-200px)}100%{transform:translateX(calc(100vw + 200px))}}
+
+/* ===== MENU BAR ===== */
+#menubar{position:fixed;top:0;left:0;right:0;height:28px;background:var(--menu-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:flex;align-items:center;padding:0 12px;z-index:100;border-bottom:1px solid rgba(0,0,0,.1);font-size:8px;color:var(--menu-text);gap:16px}
+#menubar .apple{font-size:14px;cursor:default}
+#menubar .name{font-weight:bold}
+#menubar .spacer{flex:1}
+#menubar .clock{font-size:7px;letter-spacing:.5px}
+#menubar .toggle-wrap{cursor:pointer;display:flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;transition:background .2s}
+#menubar .toggle-wrap:hover{background:rgba(0,0,0,.08)}
+.dark #menubar .toggle-wrap:hover{background:rgba(255,255,255,.1)}
+
+/* ===== DESKTOP ICONS ===== */
+#desktop{position:fixed;top:36px;left:0;right:0;bottom:60px;padding:16px;display:flex;flex-direction:column;flex-wrap:wrap;align-content:flex-start;gap:8px;z-index:10}
+.icon{width:76px;text-align:center;padding:6px;border-radius:8px;cursor:pointer;transition:background .15s;user-select:none}
+.icon:hover{background:rgba(255,255,255,.15)}
+.icon:active{background:rgba(255,255,255,.25)}
+.icon .img{width:52px;height:52px;margin:0 auto 4px;image-rendering:pixelated}
+.icon .img svg{width:100%;height:100%}
+.icon .lbl{font-size:6px;color:var(--desktop-text);line-height:1.3;text-shadow:0 1px 3px rgba(0,0,0,.5);word-break:break-word}
+
+/* ===== STICKY NOTE ===== */
+#sticky{position:absolute;top:50px;right:24px;width:180px;padding:16px;background:var(--note-bg);box-shadow:2px 3px 10px var(--note-shadow);transform:rotate(2deg);z-index:15;border-radius:2px;cursor:move}
+#sticky .pin{position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:12px;height:12px;background:#e24a33;border-radius:50%;border:2px solid #b5301e;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+#sticky p{font-size:7px;line-height:1.8;color:#444}
+.dark #sticky p{color:#ccc}
+#sticky .sig{font-size:6px;color:#999;margin-top:8px;text-align:right}
+
+/* ===== PIXEL CHARACTER ===== */
+#character{position:fixed;bottom:62px;left:50%;transform:translateX(-50%);z-index:20;image-rendering:pixelated}
+#character svg{width:64px;height:80px;display:block}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-4px)}}
+#character{animation:bob 2s ease-in-out infinite}
+
+/* ===== DOCK ===== */
+#dock{position:fixed;bottom:0;left:50%;transform:translateX(-50%);height:54px;background:var(--dock-bg);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-radius:14px 14px 0 0;display:flex;align-items:center;padding:0 16px;gap:10px;z-index:50;border:1px solid rgba(255,255,255,.2);border-bottom:none}
+.dock-icon{width:38px;height:38px;cursor:pointer;transition:transform .15s;image-rendering:pixelated;border-radius:8px}
+.dock-icon:hover{transform:scale(1.3) translateY(-6px)}
+.dock-icon svg{width:100%;height:100%}
+
+/* ===== macOS WINDOWS ===== */
+.window{position:absolute;min-width:340px;max-width:600px;background:var(--win-bg);border:1px solid var(--win-border);border-radius:10px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.25);z-index:30;display:none;resize:both}
+.window.open{display:block;animation:win-open .25s ease-out}
+@keyframes win-open{0%{transform:scale(.85);opacity:0}100%{transform:scale(1);opacity:1}}
+.win-title{height:32px;background:var(--win-title);display:flex;align-items:center;padding:0 10px;cursor:move;user-select:none;border-bottom:1px solid var(--win-border)}
+.win-dots{display:flex;gap:6px}
+.win-dot{width:10px;height:10px;border-radius:50%;cursor:pointer}
+.win-dot.red{background:#ff5f57;border:1px solid #e0443e}
+.win-dot.yellow{background:#febd2f;border:1px solid #dea123}
+.win-dot.green{background:#28c840;border:1px solid #1aab29}
+.win-dot:hover{filter:brightness(1.2)}
+.win-title-text{flex:1;text-align:center;font-size:7px;color:var(--menu-text);opacity:.7}
+.win-body{padding:16px;max-height:400px;overflow-y:auto;font-size:8px;line-height:1.8;color:var(--menu-text)}
+.win-body h2{font-size:10px;margin:0 0 10px;color:var(--bridge)}
+.win-body p{margin:0 0 10px}
+.win-body .tags{display:flex;gap:4px;flex-wrap:wrap;margin:8px 0}
+.win-body .tag{font-size:6px;padding:3px 8px;background:rgba(226,74,51,.1);color:var(--bridge);border-radius:10px;border:1px solid rgba(226,74,51,.2)}
+.win-body .stat-row{display:flex;gap:12px;margin:10px 0}
+.win-body .stat{text-align:center}
+.win-body .stat .num{font-size:14px;color:var(--bridge);display:block}
+.win-body .stat .lbl{font-size:5px;color:#888;margin-top:2px;display:block}
+.win-body .link{color:var(--bridge);text-decoration:none;border-bottom:1px dashed var(--bridge)}
+.win-body .link:hover{opacity:.7}
+.win-body .mockup{width:100%;border-radius:6px;margin:8px 0;border:1px solid var(--win-border);overflow:hidden}
+.win-body .mockup svg{width:100%;display:block}
+
+/* ===== TRASH CAN ===== */
+#trash{position:fixed;bottom:70px;right:20px;z-index:15;cursor:pointer;text-align:center;transition:transform .15s}
+#trash:hover{transform:scale(1.1)}
+#trash .lbl{font-size:5px;color:var(--desktop-text);text-shadow:0 1px 3px rgba(0,0,0,.5);margin-top:3px}
+#trash svg{width:40px;height:44px}
+
+/* ===== CUSTOM CURSOR ===== */
+.custom-cursor{cursor:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 20 24"><rect x="8" y="0" width="4" height="4" fill="%23402010"/><rect x="4" y="0" width="4" height="4" fill="%23402010"/><rect x="12" y="0" width="4" height="4" fill="%23402010"/><rect x="2" y="4" width="4" height="4" fill="%23402010"/><rect x="6" y="4" width="8" height="4" fill="%23402010"/><rect x="14" y="4" width="4" height="4" fill="%23402010"/><rect x="4" y="8" width="4" height="4" fill="%23d4a574"/><rect x="8" y="8" width="4" height="4" fill="%23d4a574"/><rect x="12" y="8" width="4" height="4" fill="%23d4a574"/><rect x="4" y="12" width="4" height="4" fill="%23d4a574"/><rect x="8" y="12" width="4" height="4" fill="%23d4a574"/><rect x="12" y="12" width="4" height="4" fill="%23d4a574"/><rect x="6" y="16" width="8" height="4" fill="%23ff85a2"/><rect x="6" y="20" width="4" height="4" fill="%234a90d9"/><rect x="10" y="20" width="4" height="4" fill="%234a90d9"/></svg>') 10 0, auto}
+
+/* scrollbar */
+.win-body::-webkit-scrollbar{width:6px}
+.win-body::-webkit-scrollbar-track{background:transparent}
+.win-body::-webkit-scrollbar-thumb{background:#ccc;border-radius:3px}
+.dark .win-body::-webkit-scrollbar-thumb{background:#555}
+
+@media(max-width:768px){
+  #desktop{flex-direction:row;flex-wrap:wrap;align-content:flex-start;padding:8px}
+  .icon{width:64px}
+  #sticky{width:140px;right:8px;top:40px}
+  #bridge{width:100%;bottom:20%}
+  .window{min-width:280px;max-width:calc(100vw - 20px)}
+  #character svg{width:48px;height:60px}
+}
+</style>
+</head>
+<body class="custom-cursor">
+
+<!-- ===== BOOT SCREEN ===== -->
+<div id="boot">
+  <div class="logo">&#x1F4BB;</div>
+  <div style="color:#b5f542;font-size:9px;margin-bottom:20px;letter-spacing:2px">TANYA OS v2.0</div>
+  <div class="bar-wrap"><div class="bar-fill" id="boot-bar"></div></div>
+  <div class="label">LOADING PORTFOLIO...</div>
+</div>
+
+<!-- ===== BACKGROUND SCENE ===== -->
+<div id="scene" class="day">
+  <!-- Stars (visible at night) -->
+  <div class="star twinkle" style="top:5%;left:10%;width:2px;height:2px"></div>
+  <div class="star" style="top:8%;left:30%;width:3px;height:3px"></div>
+  <div class="star twinkle" style="top:3%;left:55%;width:2px;height:2px"></div>
+  <div class="star" style="top:12%;left:70%;width:2px;height:2px"></div>
+  <div class="star twinkle" style="top:6%;left:85%;width:3px;height:3px"></div>
+  <div class="star" style="top:15%;left:20%;width:2px;height:2px"></div>
+  <div class="star twinkle" style="top:10%;left:45%;width:2px;height:2px"></div>
+  <div class="star" style="top:2%;left:92%;width:3px;height:3px"></div>
+
+  <!-- Clouds -->
+  <div class="cloud" style="top:8%;animation:float-cloud 35s linear infinite">
+    <svg width="120" height="40" viewBox="0 0 120 40"><ellipse cx="60" cy="24" rx="50" ry="16" fill="rgba(255,255,255,.6)"/><ellipse cx="40" cy="18" rx="30" ry="14" fill="rgba(255,255,255,.5)"/><ellipse cx="80" cy="20" rx="28" ry="12" fill="rgba(255,255,255,.5)"/></svg>
+  </div>
+  <div class="cloud" style="top:14%;animation:float-cloud 50s linear infinite;animation-delay:-20s">
+    <svg width="90" height="30" viewBox="0 0 90 30"><ellipse cx="45" cy="18" rx="38" ry="12" fill="rgba(255,255,255,.4)"/><ellipse cx="30" cy="14" rx="22" ry="10" fill="rgba(255,255,255,.35)"/></svg>
+  </div>
+  <div class="cloud" style="top:20%;animation:float-cloud 42s linear infinite;animation-delay:-10s">
+    <svg width="100" height="35" viewBox="0 0 100 35"><ellipse cx="50" cy="20" rx="42" ry="14" fill="rgba(255,255,255,.5)"/><ellipse cx="70" cy="16" rx="25" ry="10" fill="rgba(255,255,255,.4)"/></svg>
+  </div>
+
+  <!-- GOLDEN GATE BRIDGE (pixel art SVG) -->
+  <div id="bridge">
+    <svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg">
+      <!-- Water -->
+      <rect x="0" y="180" width="700" height="40" fill="rgba(100,180,220,.3)" rx="2"/>
+      <!-- Road deck -->
+      <rect x="60" y="150" width="580" height="12" fill="var(--bridge)" rx="1"/>
+      <rect x="60" y="162" width="580" height="4" fill="var(--bridge-dark)"/>
+      <!-- Left tower -->
+      <rect x="160" y="40" width="12" height="126" fill="var(--bridge)"/>
+      <rect x="172" y="40" width="12" height="126" fill="var(--bridge-dark)"/>
+      <rect x="155" y="36" width="24" height="8" fill="var(--bridge)"/>
+      <rect x="155" y="70" width="24" height="6" fill="var(--bridge)"/>
+      <rect x="155" y="110" width="24" height="6" fill="var(--bridge)"/>
+      <!-- Right tower -->
+      <rect x="510" y="40" width="12" height="126" fill="var(--bridge)"/>
+      <rect x="522" y="40" width="12" height="126" fill="var(--bridge-dark)"/>
+      <rect x="505" y="36" width="24" height="8" fill="var(--bridge)"/>
+      <rect x="505" y="70" width="24" height="6" fill="var(--bridge)"/>
+      <rect x="505" y="110" width="24" height="6" fill="var(--bridge)"/>
+      <!-- Main cables -->
+      <path d="M60,80 Q170,40 350,90 Q530,40 640,80" stroke="var(--bridge)" stroke-width="3" fill="none"/>
+      <path d="M60,84 Q170,44 350,94 Q530,44 640,84" stroke="var(--bridge-dark)" stroke-width="2" fill="none"/>
+      <!-- Vertical suspender cables -->
+      <g stroke="var(--bridge)" stroke-width="1" opacity=".6">
+        <line x1="120" y1="72" x2="120" y2="150"/>
+        <line x1="200" y1="52" x2="200" y2="150"/>
+        <line x1="240" y1="58" x2="240" y2="150"/>
+        <line x1="280" y1="68" x2="280" y2="150"/>
+        <line x1="310" y1="78" x2="310" y2="150"/>
+        <line x1="350" y1="88" x2="350" y2="150"/>
+        <line x1="390" y1="78" x2="390" y2="150"/>
+        <line x1="420" y1="68" x2="420" y2="150"/>
+        <line x1="460" y1="58" x2="460" y2="150"/>
+        <line x1="500" y1="52" x2="500" y2="150"/>
+        <line x1="570" y1="68" x2="570" y2="150"/>
+      </g>
+      <!-- Hills behind -->
+      <ellipse cx="80" cy="160" rx="120" ry="40" fill="rgba(74,120,86,.25)"/>
+      <ellipse cx="620" cy="160" rx="120" ry="45" fill="rgba(74,120,86,.2)"/>
+    </svg>
+  </div>
+</div>
+
+<!-- ===== MENU BAR ===== -->
+<div id="menubar">
+  <span class="apple">&#xF8FF;</span>
+  <span class="name">Tanya Hemdev</span>
+  <span style="opacity:.5">File</span>
+  <span style="opacity:.5">Edit</span>
+  <span style="opacity:.5">View</span>
+  <span class="spacer"></span>
+  <span class="toggle-wrap" id="theme-toggle" title="Toggle dark/light mode">
+    <span id="theme-icon">&#9788;</span>
+  </span>
+  <span class="clock" id="clock"></span>
+</div>
+
+<!-- ===== DESKTOP ICONS ===== -->
+<div id="desktop">
+  <!-- TAN-1 -->
+  <div class="icon" onclick="openWin('win-tan1')" ondblclick="openWin('win-tan1')">
+    <div class="img">
+      <svg viewBox="0 0 52 52"><rect width="52" height="52" rx="8" fill="#1a3a2a"/><text x="8" y="16" font-size="6" fill="#b5f542" font-family="monospace">TAN-1</text><rect x="8" y="20" width="36" height="2" rx="1" fill="#2a5a3a"/><path d="M10,38 L16,28 L22,32 L28,24 L34,30 L40,22" stroke="#b5f542" stroke-width="2" fill="none"/><circle cx="40" cy="22" r="3" fill="#b5f542" opacity=".5"/><text x="8" y="48" font-size="5" fill="#4a8a5a" font-family="monospace">92%</text><circle cx="42" cy="44" r="4" fill="#28c840"/></svg>
+    </div>
+    <div class="lbl">TAN-1</div>
+  </div>
+
+  <!-- Curb -->
+  <div class="icon" onclick="openWin('win-curb')">
+    <div class="img">
+      <svg viewBox="0 0 52 52"><rect width="52" height="52" rx="8" fill="#f0e6d3"/><text x="6" y="14" font-size="7" fill="#8b6914" font-family="sans-serif" font-weight="bold">curb</text><rect x="6" y="18" width="18" height="14" rx="3" fill="#e8d8b8"/><rect x="28" y="18" width="18" height="14" rx="3" fill="#d4c4a4"/><rect x="6" y="36" width="18" height="10" rx="3" fill="#c8b894"/><text x="9" y="44" font-size="4" fill="#8b6914" font-family="monospace">$25</text><rect x="28" y="36" width="18" height="10" rx="3" fill="#b8a884"/><circle cx="44" cy="8" r="5" fill="#b5f542" opacity=".8"/><text x="40" y="10" font-size="4" fill="#1a3a1a" font-family="monospace">.edu</text></svg>
+    </div>
+    <div class="lbl">Curb</div>
+  </div>
+
+  <!-- Spotify / Bad Bunny Translation -->
+  <div class="icon" onclick="openWin('win-spotify')">
+    <div class="img">
+      <svg viewBox="0 0 52 52"><rect width="52" height="52" rx="8" fill="#191414"/><circle cx="14" cy="14" r="8" fill="#1DB954"/><path d="M10,12 Q14,10 18,12" stroke="#191414" stroke-width="1.5" fill="none"/><path d="M11,14 Q14,12.5 17,14" stroke="#191414" stroke-width="1.5" fill="none"/><rect x="4" y="26" width="44" height="22" rx="4" fill="#2a1f3d"/><text x="7" y="34" font-size="4" fill="#c8a2ff" font-family="monospace">ES</text><text x="30" y="34" font-size="4" fill="#b5f542" font-family="monospace">EN</text><rect x="18" y="29" width="1" height="10" fill="#555"/><text x="7" y="42" font-size="3.5" fill="#ddd" font-family="sans-serif">Yo perri...</text><text x="28" y="42" font-size="3.5" fill="#b5f542" font-family="sans-serif">I wanna...</text></svg>
+    </div>
+    <div class="lbl">Spotify Translator</div>
+  </div>
+
+  <!-- Neuro Learner -->
+  <div class="icon" onclick="openWin('win-neuro')">
+    <div class="img">
+      <svg viewBox="0 0 52 52"><rect width="52" height="52" rx="8" fill="#1a1040"/><ellipse cx="26" cy="22" rx="14" ry="12" fill="none" stroke="#c8a2ff" stroke-width="1.5"/><path d="M16,20 Q20,12 26,18 Q32,12 36,20" stroke="#ff85a2" stroke-width="1" fill="none"/><circle cx="20" cy="22" r="2" fill="#c8a2ff"/><circle cx="32" cy="22" r="2" fill="#c8a2ff"/><circle cx="26" cy="16" r="2" fill="#ff85a2"/><line x1="20" y1="22" x2="26" y2="16" stroke="#c8a2ff" stroke-width=".5"/><line x1="32" y1="22" x2="26" y2="16" stroke="#c8a2ff" stroke-width=".5"/><rect x="8" y="38" width="36" height="8" rx="3" fill="#2a1850"/><rect x="10" y="40" width="20" height="4" rx="2" fill="#c8a2ff" opacity=".5"/><text x="32" y="44" font-size="5" fill="#b5f542" font-family="monospace">92%</text></svg>
+    </div>
+    <div class="lbl">Neuro Learner</div>
+  </div>
+
+  <!-- Phantom -->
+  <div class="icon" onclick="openWin('win-phantom')">
+    <div class="img">
+      <svg viewBox="0 0 52 52"><rect width="52" height="52" rx="8" fill="#0c0c14"/><circle cx="26" cy="20" r="12" fill="none" stroke="#ff5555" stroke-width="1.5" stroke-dasharray="3 2"/><text x="18" y="24" font-size="10" fill="#ff5555" font-family="monospace">&#x26A0;</text><rect x="6" y="36" width="40" height="12" rx="3" fill="#1a1a24"/><circle cx="12" cy="42" r="3" fill="#ff5555"/><text x="18" y="44" font-size="4" fill="#ff8888" font-family="monospace">DARK PATTERN</text></svg>
+    </div>
+    <div class="lbl">Phantom</div>
+  </div>
+
+  <!-- FormFlow -->
+  <div class="icon" onclick="openWin('win-formflow')">
+    <div class="img">
+      <svg viewBox="0 0 52 52"><rect width="52" height="52" rx="8" fill="#0c1117"/><rect x="6" y="6" width="18" height="40" rx="3" fill="#131922"/><rect x="9" y="10" width="12" height="3" rx="1" fill="#333"/><rect x="9" y="16" width="12" height="3" rx="1" fill="#333"/><rect x="9" y="22" width="12" height="3" rx="1" fill="#333"/><rect x="9" y="28" width="12" height="3" rx="1" fill="#f54242" opacity=".5"/><line x1="15" y1="30" x2="6" y2="10" stroke="#f54242" stroke-width=".5" stroke-dasharray="2 2"/><rect x="28" y="6" width="18" height="40" rx="3" fill="#131922"/><rect x="31" y="10" width="12" height="3" rx="1" fill="rgba(181,245,66,.3)"/><rect x="31" y="16" width="12" height="3" rx="1" fill="rgba(181,245,66,.3)"/><rect x="31" y="22" width="12" height="5" rx="1" fill="rgba(200,162,255,.2)"/><text x="32" y="26" font-size="3" fill="#c8a2ff" font-family="monospace">AUTO</text><rect x="31" y="30" width="12" height="3" rx="1" fill="#b5f542" opacity=".3"/><text x="32" y="44" font-size="4" fill="#b5f542" font-family="monospace">+67%</text></svg>
+    </div>
+    <div class="lbl">FormFlow</div>
+  </div>
+
+  <!-- AccessNav -->
+  <div class="icon" onclick="openWin('win-accessnav')">
+    <div class="img">
+      <svg viewBox="0 0 52 52"><rect width="52" height="52" rx="8" fill="#0a1a2a"/><circle cx="16" cy="20" r="3" fill="#b5f542"/><text x="14" y="22" font-size="4" fill="#0a1a2a" font-family="sans-serif" font-weight="bold">A</text><circle cx="38" cy="36" r="3" fill="#ff5555"/><text x="36" y="38" font-size="4" fill="#fff" font-family="sans-serif" font-weight="bold">B</text><path d="M16,20 L24,28 L30,24 L38,36" stroke="#b5f542" stroke-width="1.5" fill="none" stroke-dasharray="3 2"/><rect x="24" y="8" width="24" height="10" rx="3" fill="#1a2a3a"/><rect x="26" y="10" width="14" height="2" rx="1" fill="#ff5555"/><rect x="26" y="13" width="10" height="2" rx="1" fill="#f59542"/><text x="8" y="46" font-size="4" fill="#6ec6e6" font-family="monospace">5.5M</text><text x="28" y="46" font-size="3" fill="#888" font-family="monospace">wheelchair</text></svg>
+    </div>
+    <div class="lbl">AccessNav</div>
+  </div>
+</div>
+
+<!-- ===== STICKY NOTE ===== -->
+<div id="sticky">
+  <div class="pin"></div>
+  <p>Product & Data,<br>UC Berkeley '27</p>
+  <p style="margin-top:6px;color:var(--bridge)">Building at the intersection of AI, data, and human behavior.</p>
+  <div class="sig">- Tanya</div>
+</div>
+
+<!-- ===== PIXEL CHARACTER ===== -->
+<div id="character">
+  <svg viewBox="0 0 32 40" xmlns="http://www.w3.org/2000/svg">
+    <!-- Hair (curly, dark brown) -->
+    <rect x="8" y="0" width="16" height="4" fill="#3a1f0a"/>
+    <rect x="6" y="2" width="4" height="6" fill="#3a1f0a"/>
+    <rect x="22" y="2" width="4" height="6" fill="#3a1f0a"/>
+    <rect x="4" y="4" width="4" height="8" fill="#4a2810"/>
+    <rect x="24" y="4" width="4" height="8" fill="#4a2810"/>
+    <rect x="8" y="2" width="16" height="4" fill="#3a1f0a"/>
+    <!-- Curly bits -->
+    <rect x="4" y="10" width="2" height="4" fill="#4a2810"/>
+    <rect x="26" y="10" width="2" height="4" fill="#4a2810"/>
+    <!-- Face -->
+    <rect x="10" y="6" width="12" height="12" fill="#d4a574"/>
+    <rect x="8" y="8" width="2" height="8" fill="#d4a574"/>
+    <rect x="22" y="8" width="2" height="8" fill="#d4a574"/>
+    <!-- Eyes -->
+    <rect x="12" y="10" width="2" height="2" fill="#2a1505"/>
+    <rect x="18" y="10" width="2" height="2" fill="#2a1505"/>
+    <!-- Smile -->
+    <rect x="13" y="14" width="6" height="1" fill="#b5845a"/>
+    <rect x="12" y="13" width="1" height="1" fill="#b5845a"/>
+    <rect x="19" y="13" width="1" height="1" fill="#b5845a"/>
+    <!-- Blush -->
+    <rect x="10" y="12" width="2" height="2" fill="#ffb5b5" opacity=".5"/>
+    <rect x="20" y="12" width="2" height="2" fill="#ffb5b5" opacity=".5"/>
+    <!-- Body (pink top) -->
+    <rect x="10" y="18" width="12" height="10" fill="#ff85a2"/>
+    <rect x="8" y="20" width="2" height="6" fill="#ff85a2"/>
+    <rect x="22" y="20" width="2" height="6" fill="#ff85a2"/>
+    <!-- Arms -->
+    <rect x="6" y="20" width="2" height="6" fill="#d4a574"/>
+    <rect x="24" y="20" width="2" height="6" fill="#d4a574"/>
+    <!-- Skirt/pants (blue) -->
+    <rect x="10" y="28" width="12" height="6" fill="#4a90d9"/>
+    <!-- Legs -->
+    <rect x="12" y="34" width="3" height="4" fill="#d4a574"/>
+    <rect x="18" y="34" width="3" height="4" fill="#d4a574"/>
+    <!-- Shoes -->
+    <rect x="11" y="38" width="5" height="2" fill="#3a1f0a"/>
+    <rect x="17" y="38" width="5" height="2" fill="#3a1f0a"/>
+  </svg>
+</div>
+
+<!-- ===== TRASH CAN (Easter Egg) ===== -->
+<div id="trash" onclick="openWin('win-trash')">
+  <svg viewBox="0 0 40 44" xmlns="http://www.w3.org/2000/svg">
+    <rect x="6" y="8" width="28" height="32" rx="2" fill="#888"/>
+    <rect x="8" y="10" width="24" height="28" rx="1" fill="#aaa"/>
+    <rect x="2" y="4" width="36" height="6" rx="2" fill="#888"/>
+    <rect x="14" y="0" width="12" height="6" rx="2" fill="#777"/>
+    <rect x="13" y="14" width="2" height="20" fill="#888"/>
+    <rect x="19" y="14" width="2" height="20" fill="#888"/>
+    <rect x="25" y="14" width="2" height="20" fill="#888"/>
+  </svg>
+  <div class="lbl">Rejected<br>Concepts</div>
+</div>
+
+<!-- ===== DOCK ===== -->
+<div id="dock">
+  <div class="dock-icon" onclick="openWin('win-about')" title="About Me">
+    <svg viewBox="0 0 38 38"><rect width="38" height="38" rx="8" fill="#ff85a2"/><circle cx="19" cy="14" r="6" fill="#fff"/><ellipse cx="19" cy="30" rx="10" ry="7" fill="#fff"/></svg>
+  </div>
+  <div class="dock-icon" onclick="window.open('https://linkedin.com/in/tanyahemdev','_blank')" title="LinkedIn">
+    <svg viewBox="0 0 38 38"><rect width="38" height="38" rx="8" fill="#0077b5"/><text x="10" y="28" font-size="22" fill="#fff" font-family="sans-serif" font-weight="bold">in</text></svg>
+  </div>
+  <div class="dock-icon" onclick="window.open('https://github.com/tanhemdev','_blank')" title="GitHub">
+    <svg viewBox="0 0 38 38"><rect width="38" height="38" rx="8" fill="#24292e"/><circle cx="19" cy="18" r="10" fill="#fff"/><ellipse cx="19" cy="24" rx="6" ry="4" fill="#24292e"/><circle cx="15" cy="16" r="1.5" fill="#24292e"/><circle cx="23" cy="16" r="1.5" fill="#24292e"/></svg>
+  </div>
+  <div class="dock-icon" onclick="window.open('https://tanyahemdev.com','_blank')" title="Main Site">
+    <svg viewBox="0 0 38 38"><rect width="38" height="38" rx="8" fill="#b5f542"/><text x="7" y="26" font-size="16" fill="#1a3a1a" font-family="monospace" font-weight="bold">TH</text></svg>
+  </div>
+  <div class="dock-icon" onclick="window.open('mailto:tanyahemdev@berkeley.edu')" title="Email">
+    <svg viewBox="0 0 38 38"><rect width="38" height="38" rx="8" fill="#4a90d9"/><rect x="6" y="11" width="26" height="16" rx="2" fill="#fff"/><path d="M6,11 L19,22 L32,11" stroke="#4a90d9" stroke-width="2" fill="none"/></svg>
+  </div>
+</div>
+
+<!-- ===== WINDOWS ===== -->
+
+<!-- About Me Window -->
+<div class="window" id="win-about" style="top:80px;left:200px;width:420px">
+  <div class="win-title"><div class="win-dots"><div class="win-dot red" onclick="closeWin('win-about')"></div><div class="win-dot yellow"></div><div class="win-dot green"></div></div><div class="win-title-text">About Me</div></div>
+  <div class="win-body">
+    <h2>Tanya Hemdev</h2>
+    <p>I'm a junior at UC Berkeley studying Cognitive Science + Data Science. I build products at the intersection of AI, data, and human behavior.</p>
+    <p>Currently a PM Intern at Lennox International (Allied Team, Summer 2026). Previously at Kaiser Permanente and Berkeley SkyDeck.</p>
+    <div class="tags"><span class="tag">Product</span><span class="tag">AI/ML</span><span class="tag">Data Science</span><span class="tag">CogSci</span><span class="tag">Berkeley '27</span></div>
+    <p style="font-size:6px;color:#888">Open to roles &bull; tanyahemdev@berkeley.edu</p>
+  </div>
+</div>
+
+<!-- TAN-1 Window -->
+<div class="window" id="win-tan1" style="top:60px;left:120px;width:480px">
+  <div class="win-title"><div class="win-dots"><div class="win-dot red" onclick="closeWin('win-tan1')"></div><div class="win-dot yellow"></div><div class="win-dot green"></div></div><div class="win-title-text">TAN-1 - Health Tech Dashboard</div></div>
+  <div class="win-body">
+    <h2>TAN-1: Non-invasive Biosensor + Predictive AI</h2>
+    <div class="stat-row">
+      <div class="stat"><span class="num">92%</span><span class="lbl">accuracy</span></div>
+      <div class="stat"><span class="num">288</span><span class="lbl">readings/day</span></div>
+      <div class="stat"><span class="num">3</span><span class="lbl">integrations</span></div>
+    </div>
+    <p>Non-invasive glucose monitoring + predictive AI for diabetes management. Built as product lead, coordinating across hardware, firmware, and ML teams.</p>
+    <p>Featured in <a class="link" href="https://ls.berkeley.edu/news/cognitive-science-students-pitch-health-tech-ai-assistants-investors" target="_blank">UC Berkeley L&S News</a>.</p>
+    <div class="tags"><span class="tag">Product Lead</span><span class="tag">AI / ML</span><span class="tag">Health Tech</span></div>
+    <p><a class="link" href="https://github.com/tanhemdev/tan1" target="_blank">View on GitHub</a></p>
+  </div>
+</div>
+
+<!-- Curb Window -->
+<div class="window" id="win-curb" style="top:100px;left:250px;width:450px">
+  <div class="win-title"><div class="win-dots"><div class="win-dot red" onclick="closeWin('win-curb')"></div><div class="win-dot yellow"></div><div class="win-dot green"></div></div><div class="win-title-text">Curb - Student Marketplace</div></div>
+  <div class="win-body">
+    <h2>Curb: Free Peer-to-Peer Marketplace for Berkeley Students</h2>
+    <div class="stat-row">
+      <div class="stat"><span class="num">500+</span><span class="lbl">users</span></div>
+      <div class="stat"><span class="num">72hr</span><span class="lbl">auto-expire</span></div>
+      <div class="stat"><span class="num">.edu</span><span class="lbl">only</span></div>
+    </div>
+    <p>Pinterest-style discovery with .edu authentication. 72-hour auto-expiring listings keep inventory fresh. Built with React + Firebase.</p>
+    <div class="tags"><span class="tag">React</span><span class="tag">Firebase</span><span class="tag">Marketplace</span></div>
+    <p><a class="link" href="https://github.com/tanhemdev/curb" target="_blank">View on GitHub</a></p>
+  </div>
+</div>
+
+<!-- Spotify Window -->
+<div class="window" id="win-spotify" style="top:90px;left:180px;width:480px">
+  <div class="win-title"><div class="win-dots"><div class="win-dot red" onclick="closeWin('win-spotify')"></div><div class="win-dot yellow"></div><div class="win-dot green"></div></div><div class="win-title-text">Spotify Real-Time Translator</div></div>
+  <div class="win-body">
+    <h2>Spotify Lyric Translator</h2>
+    <div class="mockup">
+      <svg viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg">
+        <rect width="460" height="200" fill="#191414"/>
+        <!-- Album art area -->
+        <rect x="10" y="10" width="80" height="80" rx="4" fill="#2a1f3d"/>
+        <text x="24" y="50" font-size="28" fill="#fff">&#127912;</text>
+        <text x="20" y="78" font-size="5" fill="#c8a2ff" font-family="monospace">Bad Bunny</text>
+        <!-- Song info -->
+        <text x="100" y="28" font-size="8" fill="#fff" font-family="sans-serif" font-weight="bold">Callaita</text>
+        <text x="100" y="42" font-size="6" fill="#888" font-family="sans-serif">Bad Bunny &bull; YHLQMDLG</text>
+        <!-- Progress bar -->
+        <rect x="100" y="52" width="200" height="3" rx="1.5" fill="#333"/>
+        <rect x="100" y="52" width="120" height="3" rx="1.5" fill="#1DB954"/>
+        <!-- Lyrics translation side by side -->
+        <rect x="10" y="100" width="215" height="90" rx="6" fill="#1a1024"/>
+        <text x="18" y="116" font-size="5" fill="#c8a2ff" font-family="monospace">ORIGINAL (ES)</text>
+        <text x="18" y="130" font-size="7" fill="#eee" font-family="sans-serif">Ella es callaita</text>
+        <text x="18" y="144" font-size="7" fill="#eee" font-family="sans-serif">pero en la cama</text>
+        <text x="18" y="158" font-size="7" fill="#eee" font-family="sans-serif">hace mucho ruido</text>
+        <text x="18" y="176" font-size="5" fill="#666" font-family="monospace">&#9654; Playing now</text>
+        <rect x="235" y="100" width="215" height="90" rx="6" fill="#0a1a10"/>
+        <text x="243" y="116" font-size="5" fill="#b5f542" font-family="monospace">TRANSLATED (EN)</text>
+        <text x="243" y="130" font-size="7" fill="#eee" font-family="sans-serif">She's the quiet type</text>
+        <text x="243" y="144" font-size="7" fill="#eee" font-family="sans-serif">but behind closed doors</text>
+        <text x="243" y="158" font-size="7" fill="#eee" font-family="sans-serif">she's really loud</text>
+        <text x="243" y="176" font-size="5" fill="#b5f542" font-family="monospace">92% acc.</text>
+        <!-- Play controls -->
+        <text x="172" y="78" font-size="6" fill="#888" font-family="monospace">&#9664;&#9664;  &#9654;  &#9654;&#9654;</text>
+      </svg>
+    </div>
+    <p>Real-time lyric translation synced to Spotify playback. Tested on Bad Bunny, Rosalia, and J Balvin tracks. Handles slang and cultural context beyond literal translation.</p>
+    <div class="stat-row">
+      <div class="stat"><span class="num">92%</span><span class="lbl">accuracy</span></div>
+      <div class="stat"><span class="num">6</span><span class="lbl">languages</span></div>
+      <div class="stat"><span class="num">200ms</span><span class="lbl">latency</span></div>
+    </div>
+    <div class="tags"><span class="tag">Spotify API</span><span class="tag">NLP</span><span class="tag">Translation</span><span class="tag">Python</span></div>
+  </div>
+</div>
+
+<!-- Neuro Learner Window -->
+<div class="window" id="win-neuro" style="top:70px;left:150px;width:450px">
+  <div class="win-title"><div class="win-dots"><div class="win-dot red" onclick="closeWin('win-neuro')"></div><div class="win-dot yellow"></div><div class="win-dot green"></div></div><div class="win-title-text">Neuro Learner</div></div>
+  <div class="win-body">
+    <h2>Neuro Learner: Adaptive Learning Engine</h2>
+    <p>Cognitive science-backed learning platform that adapts to how your brain actually retains information. Uses spaced repetition curves personalized to individual forgetting rates.</p>
+    <div class="stat-row">
+      <div class="stat"><span class="num">92%</span><span class="lbl">retention</span></div>
+      <div class="stat"><span class="num">2.4x</span><span class="lbl">faster learning</span></div>
+    </div>
+    <div class="tags"><span class="tag">CogSci</span><span class="tag">ML</span><span class="tag">EdTech</span><span class="tag">React</span></div>
+    <p><a class="link" href="https://github.com/tanhemdev/neuro-learner" target="_blank">View on GitHub</a></p>
+  </div>
+</div>
+
+<!-- Phantom Window -->
+<div class="window" id="win-phantom" style="top:80px;left:200px;width:480px">
+  <div class="win-title"><div class="win-dots"><div class="win-dot red" onclick="closeWin('win-phantom')"></div><div class="win-dot yellow"></div><div class="win-dot green"></div></div><div class="win-title-text">Phantom - Dark Pattern Detection</div></div>
+  <div class="win-body">
+    <h2>Phantom: Dark Pattern Detection Engine</h2>
+    <div class="stat-row">
+      <div class="stat"><span class="num">94.2%</span><span class="lbl">F1 score</span></div>
+      <div class="stat"><span class="num">2,400+</span><span class="lbl">screenshots trained</span></div>
+      <div class="stat"><span class="num">15</span><span class="lbl">categories</span></div>
+    </div>
+    <p>Real-time browser extension that detects deceptive UI patterns while you shop. MobileNet v3 classifier trained on 2,400+ labeled screenshots. Flags fake urgency, sneak-into-basket, confirmshaming, and 12 other dark pattern types.</p>
+    <p>Research: Princeton (Mathur et al.) found 1,818 dark pattern instances across 11,000 shopping sites. ICPEN found 76% of subscription sites use at least one. FTC fined Amazon $2.5B.</p>
+    <div class="tags"><span class="tag">ML / CV</span><span class="tag">Browser Extension</span><span class="tag">Consumer Protection</span></div>
+    <p><a class="link" href="https://github.com/tanhemdev/phantom" target="_blank">View on GitHub</a></p>
+  </div>
+</div>
+
+<!-- FormFlow Window -->
+<div class="window" id="win-formflow" style="top:90px;left:220px;width:480px">
+  <div class="win-title"><div class="win-dots"><div class="win-dot red" onclick="closeWin('win-formflow')"></div><div class="win-dot yellow"></div><div class="win-dot green"></div></div><div class="win-title-text">FormFlow - Smart Forms</div></div>
+  <div class="win-body">
+    <h2>FormFlow: Intelligent Form Recovery</h2>
+    <div class="stat-row">
+      <div class="stat"><span class="num">81%</span><span class="lbl">form abandonment</span></div>
+      <div class="stat"><span class="num">$15B</span><span class="lbl">market</span></div>
+      <div class="stat"><span class="num">+67%</span><span class="lbl">completion lift</span></div>
+    </div>
+    <p>AI-powered adaptive forms for enterprise SaaS. Predicts abandonment in real time via behavioral signals (mouse movement, scroll velocity, field focus time). When risk crosses 60%, the form adapts: collapsing fields, auto-enriching from email domain, switching to conversational mode.</p>
+    <div class="tags"><span class="tag">Case Study</span><span class="tag">Enterprise SaaS</span><span class="tag">Conversion</span><span class="tag">AI / NLP</span></div>
+    <p><a class="link" href="https://github.com/tanhemdev/formflow" target="_blank">View Case Study</a></p>
+  </div>
+</div>
+
+<!-- AccessNav Window -->
+<div class="window" id="win-accessnav" style="top:70px;left:170px;width:460px">
+  <div class="win-title"><div class="win-dots"><div class="win-dot red" onclick="closeWin('win-accessnav')"></div><div class="win-dot yellow"></div><div class="win-dot green"></div></div><div class="win-title-text">AccessNav</div></div>
+  <div class="win-body">
+    <h2>AccessNav: Accessible Route Finder</h2>
+    <div class="stat-row">
+      <div class="stat"><span class="num">5.5M</span><span class="lbl">wheelchair users</span></div>
+      <div class="stat"><span class="num">23 min</span><span class="lbl">extra nav time</span></div>
+      <div class="stat"><span class="num">8,600+</span><span class="lbl">barriers mapped</span></div>
+    </div>
+    <p>AI-powered accessible navigation for mobility-impaired users. Maps wheelchair-friendly routes, identifies barriers (steep slopes, broken ramps, no curb cuts), and includes emergency features: panic button with GPS alert, fall detection, nearest accessible ER routing.</p>
+    <div class="tags"><span class="tag">Accessibility</span><span class="tag">GIS</span><span class="tag">Mobile</span><span class="tag">Emergency</span></div>
+    <p><a class="link" href="https://github.com/tanhemdev/accessnav" target="_blank">View on GitHub</a></p>
+  </div>
+</div>
+
+<!-- Trash/Easter Egg Window -->
+<div class="window" id="win-trash" style="top:100px;left:300px;width:380px">
+  <div class="win-title"><div class="win-dots"><div class="win-dot red" onclick="closeWin('win-trash')"></div><div class="win-dot yellow"></div><div class="win-dot green"></div></div><div class="win-title-text">Rejected Concepts</div></div>
+  <div class="win-body">
+    <h2>The Idea Graveyard</h2>
+    <p style="color:#888">Projects that didn't make it. Pour one out.</p>
+    <p>&#128128; <b>Mood2Playlist</b> - Facial recognition to auto-generate playlists. Turns out people don't want their webcam on while crying to Taylor Swift.</p>
+    <p>&#128128; <b>CampusGPT</b> - AI chatbot for Berkeley policies. It confidently hallucinated that the library was open 25/8.</p>
+    <p>&#128128; <b>FitBuddy</b> - Social workout app. Nobody wants their friends to know they skipped leg day. Again.</p>
+    <p>&#128128; <b>ProfRate AI</b> - Predict professor ratings from syllabus text. Ethical issues: yes. Accuracy: also yes. Shipped: no.</p>
+    <p style="font-size:6px;color:#888;margin-top:12px">Every shipped product stands on a pile of rejected ones.</p>
+  </div>
+</div>
+
+<script>
+// ===== AUDIO (8-bit sounds via Web Audio API) =====
+const AudioCtx = window.AudioContext || window.webkitAudioContext;
+let audioCtx;
+function initAudio(){if(!audioCtx) audioCtx = new AudioCtx()}
+
+function playSound(type){
+  initAudio();
+  const o = audioCtx.createOscillator();
+  const g = audioCtx.createGain();
+  o.connect(g);g.connect(audioCtx.destination);
+  g.gain.value = 0.08;
+  if(type==='open'){
+    o.type='square';o.frequency.value=440;
+    o.frequency.setValueAtTime(440,audioCtx.currentTime);
+    o.frequency.linearRampToValueAtTime(660,audioCtx.currentTime+0.08);
+    o.frequency.linearRampToValueAtTime(880,audioCtx.currentTime+0.15);
+    g.gain.linearRampToValueAtTime(0,audioCtx.currentTime+0.2);
+    o.start();o.stop(audioCtx.currentTime+0.2);
+  } else if(type==='close'){
+    o.type='square';o.frequency.value=660;
+    o.frequency.linearRampToValueAtTime(330,audioCtx.currentTime+0.15);
+    g.gain.linearRampToValueAtTime(0,audioCtx.currentTime+0.18);
+    o.start();o.stop(audioCtx.currentTime+0.18);
+  } else if(type==='boot'){
+    o.type='triangle';o.frequency.value=220;
+    o.frequency.setValueAtTime(220,audioCtx.currentTime);
+    o.frequency.linearRampToValueAtTime(440,audioCtx.currentTime+0.3);
+    o.frequency.linearRampToValueAtTime(660,audioCtx.currentTime+0.5);
+    o.frequency.linearRampToValueAtTime(880,audioCtx.currentTime+0.7);
+    g.gain.linearRampToValueAtTime(0,audioCtx.currentTime+0.9);
+    o.start();o.stop(audioCtx.currentTime+0.9);
+  }
+}
+
+// ===== BOOT SEQUENCE =====
+window.addEventListener('load', ()=>{
+  const bar = document.getElementById('boot-bar');
+  const boot = document.getElementById('boot');
+  setTimeout(()=>{bar.style.width='100%'},100);
+  setTimeout(()=>{
+    playSound('boot');
+    boot.classList.add('hidden');
+    setTimeout(()=>{boot.style.display='none'},600);
+  },2800);
+});
+
+// ===== CLOCK =====
+function updateClock(){
+  const now = new Date();
+  const h = now.getHours();
+  const m = String(now.getMinutes()).padStart(2,'0');
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  const h12 = h % 12 || 12;
+  document.getElementById('clock').textContent =
+    ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][now.getDay()] + ' ' +
+    ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][now.getMonth()] + ' ' +
+    now.getDate() + '  ' + h12 + ':' + m + ' ' + ampm;
+
+  // Day/night cycle based on real time
+  const scene = document.getElementById('scene');
+  scene.className = '';
+  if(h >= 6 && h < 17) scene.classList.add('day');
+  else if(h >= 17 && h < 20) scene.classList.add('sunset');
+  else scene.classList.add('night');
+}
+updateClock();
+setInterval(updateClock, 30000);
+
+// ===== DARK/LIGHT MODE =====
+const toggle = document.getElementById('theme-toggle');
+const icon = document.getElementById('theme-icon');
+let isDark = false;
+toggle.addEventListener('click', ()=>{
+  isDark = !isDark;
+  document.body.classList.toggle('dark', isDark);
+  icon.textContent = isDark ? '☾' : '☆';
+  // Force night scene in dark mode
+  const scene = document.getElementById('scene');
+  if(isDark){
+    scene.className = 'night';
+  } else {
+    updateClock(); // Restore time-based scene
+  }
+});
+
+// ===== WINDOW MANAGEMENT =====
+let topZ = 30;
+
+function openWin(id){
+  const w = document.getElementById(id);
+  if(!w) return;
+  w.classList.add('open');
+  w.style.zIndex = ++topZ;
+  playSound('open');
+}
+
+function closeWin(id){
+  const w = document.getElementById(id);
+  if(!w) return;
+  w.classList.remove('open');
+  playSound('close');
+}
+
+// Draggable windows
+document.querySelectorAll('.win-title').forEach(title => {
+  let isDragging = false, startX, startY, origX, origY;
+  title.addEventListener('mousedown', e => {
+    if(e.target.classList.contains('win-dot')) return;
+    const win = title.parentElement;
+    win.style.zIndex = ++topZ;
+    isDragging = true;
+    startX = e.clientX;
+    startY = e.clientY;
+    origX = win.offsetLeft;
+    origY = win.offsetTop;
+    e.preventDefault();
+  });
+  document.addEventListener('mousemove', e => {
+    if(!isDragging) return;
+    const win = title.parentElement;
+    win.style.left = (origX + e.clientX - startX) + 'px';
+    win.style.top = (origY + e.clientY - startY) + 'px';
+  });
+  document.addEventListener('mouseup', () => {isDragging = false});
+});
+
+// Click windows to bring to front
+document.querySelectorAll('.window').forEach(w => {
+  w.addEventListener('mousedown', ()=>{w.style.zIndex = ++topZ});
+});
+
+// Draggable sticky note
+(function(){
+  const sticky = document.getElementById('sticky');
+  let isDragging = false, startX, startY, origX, origY;
+  sticky.addEventListener('mousedown', e => {
+    isDragging = true;
+    startX = e.clientX;
+    startY = e.clientY;
+    origX = sticky.offsetLeft;
+    origY = sticky.offsetTop;
+  });
+  document.addEventListener('mousemove', e => {
+    if(!isDragging) return;
+    sticky.style.left = (origX + e.clientX - startX) + 'px';
+    sticky.style.top = (origY + e.clientY - startY) + 'px';
+    sticky.style.right = 'auto';
+  });
+  document.addEventListener('mouseup', () => {isDragging = false});
+})();
+
+// ===== APPLE MENU EASTER EGG =====
+document.querySelector('.apple').addEventListener('click', ()=>{
+  openWin('win-about');
+});
+</script>
+</body>
+</html>
