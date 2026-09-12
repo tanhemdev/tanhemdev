@@ -1,8 +1,8 @@
 ### hey, i'm tanya.
 
-`tanhemdev / README.md`
 
-senior at uc berkeley studying cognitive science + data science. i build things at the intersection of health, data, and how people actually behave.
+
+Junior at UC Berkeley studying cognitive science + data science. i build things at the intersection of health, data, and how people actually behave.
 
 ```txt
 ~> currently pm intern at lennox, built competitive specs across 150+ SKUs + automated pipelines that cut analysis turnaround 60%
@@ -10,7 +10,7 @@ senior at uc berkeley studying cognitive science + data science. i build things 
 ~> adobe student ambassador at berkeley, 1 of 5 selected, running ai-first product workshops
 ~> fung fellowship curriculum lead, redesigned health-tech curriculum for 30+ fellows
 ~> berkeley scet innovation fellow, skydeck ace intern, basics @ berkeley founder (pitched to investors, featured in berkeley L&S news)
-~> fav thing: shortening the distance between thinking, building, testing, and learning
+~> fav thing: shortening the distance between thinking, building, testing, and learning,baking
 ```
 
 reach out if you want to chat or collab on anything in healthcare, ai tooling, or consumer.
