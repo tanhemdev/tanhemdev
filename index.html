@@ -13,16 +13,17 @@
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --paper:#F2F1EC;--paper-2:#E8E7E1;--ink:#15161A;--slate:#5A5C63;--accent:#4B3BFB;
+  --paper:#FFFFFF;--paper-2:#F5F5F5;--ink:#000000;--slate:#555555;--accent:#2563EB;
   --mono:'Space Mono',monospace;--display:'Schibsted Grotesk',sans-serif;--body:'Inter',sans-serif;
   --wrap:min(1120px,90vw);--radius:14px;
-  --surface:var(--paper);--text:var(--ink);--text-2:var(--slate);
-  --border:rgba(21,22,26,.09);--card-shadow:0 12px 32px rgba(0,0,0,.08);
+  --surface:#000000;--paper:#000000;--paper-2:#111111;--ink:#FFFFFF;--slate:#8B8D94;
+  --text:var(--ink);--text-2:var(--slate);--accent:#FFFFFF;
+  --border:rgba(255,255,255,.1);--card-shadow:0 12px 32px rgba(0,0,0,.5);
 }
-[data-theme="dark"]{
-  --surface:#0B0C0E;--paper:#0B0C0E;--paper-2:#131416;--ink:#E8E6DF;--slate:#8B8D94;
-  --text:var(--ink);--text-2:var(--slate);--accent:#7B6FFF;
-  --border:rgba(255,255,255,.07);--card-shadow:0 12px 32px rgba(0,0,0,.45);
+[data-theme="light"]{
+  --surface:#FFFFFF;--paper:#FFFFFF;--paper-2:#F5F5F5;--ink:#000000;--slate:#555555;
+  --text:var(--ink);--text-2:var(--slate);--accent:#2563EB;
+  --border:rgba(0,0,0,.1);--card-shadow:0 12px 32px rgba(0,0,0,.08);
 }
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{font-family:var(--body);background:var(--surface);color:var(--text);line-height:1.6;transition:background .35s,color .35s;overflow-x:hidden}
@@ -44,7 +45,8 @@ nav.scrolled{background:color-mix(in srgb,var(--surface) 82%,transparent);backdr
 
 /* ── HERO ── */
 .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:140px 0 60px;position:relative}
-.hero-name{font-family:var(--display);font-size:clamp(3.4rem,9vw,7.5rem);font-weight:900;line-height:.9;letter-spacing:-.045em;margin-bottom:24px;position:relative}
+.hero-name{font-family:var(--display);font-size:clamp(3rem,10vw,11rem);font-weight:900;line-height:.88;letter-spacing:-.05em;margin-bottom:32px;position:relative;white-space:nowrap;opacity:0;transform:translateY(40px) scale(.96);animation:heroReveal 1s cubic-bezier(.16,1,.3,1) .2s forwards}
+@keyframes heroReveal{to{opacity:1;transform:translateY(0) scale(1)}}
 .glitch{position:relative;display:inline-block;cursor:default}
 .glitch::before,.glitch::after{content:attr(data-text);position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;opacity:0;transition:opacity .15s}
 .hero:hover .glitch::before,.hero:hover .glitch::after{opacity:1}
@@ -57,14 +59,6 @@ nav.scrolled{background:color-mix(in srgb,var(--surface) 82%,transparent);backdr
 .hero-tagline{font-family:var(--body);font-size:clamp(1rem,1.8vw,1.2rem);color:var(--text-2);max-width:540px;line-height:1.75;font-weight:400}
 .hero-tagline em{font-style:normal;color:var(--text);font-weight:500}
 
-/* ── FLOATING PHOTO REEL ── */
-.photo-reel{position:absolute;top:50%;right:-2%;transform:translateY(-50%);width:420px;height:520px;pointer-events:none;z-index:0}
-.reel-card{position:absolute;border-radius:12px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.15);border:2px solid var(--border);transition:transform .6s cubic-bezier(.25,1,.5,1),box-shadow .4s;pointer-events:auto;cursor:grab;will-change:transform}
-.reel-card:active{cursor:grabbing}
-.reel-card img{width:100%;height:100%;object-fit:cover;pointer-events:none;user-select:none;-webkit-user-select:none}
-.reel-card:hover{box-shadow:0 16px 48px rgba(0,0,0,.25);z-index:10!important}
-[data-theme="dark"] .reel-card{border-color:rgba(255,255,255,.1);box-shadow:0 8px 32px rgba(0,0,0,.5)}
-[data-theme="dark"] .reel-card:hover{box-shadow:0 16px 48px rgba(0,0,0,.7)}
 .hero .wrap{position:relative;z-index:2}
 
 /* ── SECTION ── */
@@ -153,21 +147,22 @@ nav.scrolled{background:color-mix(in srgb,var(--surface) 82%,transparent);backdr
 .reveal-metrics .num{font-family:var(--display);font-weight:800;font-size:.95rem;line-height:1.2}
 .reveal-metrics .cap{font-family:var(--mono);font-size:.58rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-2);margin-top:2px}
 
-/* ── GALLERY ── */
-.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:auto auto auto;gap:14px}
-@media(max-width:700px){.gallery-grid{grid-template-columns:1fr 1fr}}
-.gallery-grid .gcard:nth-child(1){grid-column:1/3}
-.gallery-grid .gcard:nth-child(6){grid-column:2/4}
-.gcard{border-radius:var(--radius);overflow:hidden;position:relative;cursor:default;border:1px solid var(--border)}
-.gcard-img{aspect-ratio:16/10;position:relative;overflow:hidden}
-.gcard-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.16,1,.3,1),filter .4s}
-.gcard:hover .gcard-img img{transform:scale(1.06)}
-.gcard-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.6) 0%,transparent 50%);pointer-events:none;transition:opacity .3s}
-.gcard:hover .gcard-img::after{background:linear-gradient(to top,rgba(0,0,0,.75) 0%,rgba(0,0,0,.1) 70%)}
-.gcard-label{position:absolute;bottom:0;left:0;right:0;padding:20px;z-index:1;display:flex;flex-direction:column;gap:3px;transform:translateY(4px);transition:transform .4s cubic-bezier(.16,1,.3,1);opacity:.9}
-.gcard:hover .gcard-label{transform:translateY(0);opacity:1}
-.gcard-label .gnum{font-family:var(--mono);font-size:.58rem;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.1em}
-.gcard-label .gcap{font-family:var(--display);font-size:.85rem;font-weight:700;color:#fff;line-height:1.3}
+/* ── INTERACTIVE GALLERY ── */
+.gallery-scroll{position:relative;height:calc(100vh * 11);/* one viewport per image */}
+.gallery-sticky{position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.gallery-stack{position:relative;width:min(680px,88vw);aspect-ratio:4/3}
+.gcard{position:absolute;inset:0;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);opacity:0;transform:scale(.88) translateY(40px);transition:opacity .5s,transform .5s cubic-bezier(.16,1,.3,1);pointer-events:none}
+.gcard.active{opacity:1;transform:scale(1) translateY(0);z-index:3;pointer-events:auto}
+.gcard.prev{opacity:.35;transform:scale(.92) translateX(-60px) rotate(-2deg);z-index:2}
+.gcard.next{opacity:.35;transform:scale(.92) translateX(60px) rotate(2deg);z-index:2}
+.gcard-img{width:100%;height:100%;position:relative;overflow:hidden}
+.gcard-img img{width:100%;height:100%;object-fit:cover}
+.gcard-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.65) 0%,transparent 40%);pointer-events:none}
+.gcard-label{position:absolute;bottom:0;left:0;right:0;padding:24px;z-index:1;display:flex;flex-direction:column;gap:4px}
+.gcard-label .gnum{font-family:var(--mono);font-size:.62rem;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.1em}
+.gcard-label .gcap{font-family:var(--display);font-size:1rem;font-weight:700;color:#fff;line-height:1.3}
+.gallery-counter{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:.72rem;color:var(--text-2);letter-spacing:.06em;z-index:10}
+.gallery-hint{position:absolute;top:28px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:.62rem;color:var(--text-2);letter-spacing:.06em;opacity:.5;z-index:10}
 
 /* ── FOOTER ── */
 footer{padding:80px 0 40px;border-top:1px solid var(--border)}
@@ -181,22 +176,10 @@ footer h3{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);
 .sr{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease}
 .sr.visible{opacity:1;transform:translateY(0)}
 
-/* ── REEL ORBIT ANIMATION ── */
-@keyframes float-orbit{
-  0%{transform:translate(var(--x),var(--y)) rotate(var(--r))}
-  25%{transform:translate(calc(var(--x) + 15px),calc(var(--y) - 20px)) rotate(calc(var(--r) + 2deg))}
-  50%{transform:translate(calc(var(--x) - 10px),calc(var(--y) - 8px)) rotate(calc(var(--r) - 1deg))}
-  75%{transform:translate(calc(var(--x) + 8px),calc(var(--y) + 12px)) rotate(calc(var(--r) + 1.5deg))}
-  100%{transform:translate(var(--x),var(--y)) rotate(var(--r))}
-}
-.reel-card{animation:float-orbit var(--dur,12s) ease-in-out infinite}
-.reel-card:hover{animation-play-state:paused}
-
 /* ── RESPONSIVE ── */
 @media(max-width:900px){
   .about-grid{grid-template-columns:1fr;gap:40px}
   .work-grid{grid-template-columns:1fr}
-  .photo-reel{display:none}
 }
 @media(max-width:600px){
   .hero{padding:120px 0 60px}
@@ -204,8 +187,7 @@ footer h3{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);
   .block{padding:64px 0}
   .nav-links a:not(:last-child){display:none}
   .case{padding:24px}
-  .gallery-grid{grid-template-columns:1fr}
-  .gallery-grid .gcard:nth-child(1),.gallery-grid .gcard:nth-child(6){grid-column:1}
+  .gallery-stack{width:92vw}
   .sec-head{flex-direction:column;gap:4px}
   .exp-co{font-size:clamp(1.2rem,6vw,1.8rem)}
   .exp-top{flex-direction:column;gap:4px}
@@ -225,7 +207,7 @@ footer h3{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);
       <a href="#projects">Projects</a>
       <a href="#gallery">Gallery</a>
       <a href="#contact">Contact</a>
-      <button class="theme-toggle" id="themeBtn" aria-label="Toggle theme">Dark</button>
+      <button class="theme-toggle" id="themeBtn" aria-label="Toggle theme">Light</button>
     </div>
   </div>
 </nav>
@@ -237,27 +219,6 @@ footer h3{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);
     <p class="hero-tagline">Shortening the distance between <em>thinking, building, testing,</em> and <em>learning.</em></p>
   </div>
 
-  <!-- Floating photo reel -->
-  <div class="photo-reel" id="photoReel">
-    <div class="reel-card" style="width:160px;height:120px;--x:0px;--y:-180px;--r:-6deg;--dur:14s;z-index:3">
-      <img src="photos/photo-004.png" alt="Adobe" draggable="false">
-    </div>
-    <div class="reel-card" style="width:180px;height:130px;--x:120px;--y:-40px;--r:4deg;--dur:16s;z-index:2">
-      <img src="photos/photo-010.png" alt="Lennox" draggable="false">
-    </div>
-    <div class="reel-card" style="width:150px;height:110px;--x:-30px;--y:80px;--r:-3deg;--dur:12s;z-index:4">
-      <img src="photos/photo-003.png" alt="Kaiser" draggable="false">
-    </div>
-    <div class="reel-card" style="width:170px;height:120px;--x:160px;--y:180px;--r:7deg;--dur:18s;z-index:1">
-      <img src="photos/photo-008.png" alt="Fung" draggable="false">
-    </div>
-    <div class="reel-card" style="width:140px;height:105px;--x:50px;--y:320px;--r:-4deg;--dur:15s;z-index:5">
-      <img src="photos/photo-007.png" alt="Cal Hacks" draggable="false">
-    </div>
-    <div class="reel-card" style="width:155px;height:115px;--x:-60px;--y:-50px;--r:2deg;--dur:13s;z-index:6">
-      <img src="photos/photo-005.png" alt="EOP" draggable="false">
-    </div>
-  </div>
 </header>
 
 <!-- ═══ ABOUT ═══ -->
@@ -270,15 +231,15 @@ footer h3{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);
 
     <div class="about-grid">
       <div class="about-statement sr">
-        I love to build, to take an idea and bring it to life.
-        <span class="fade">What drives me is bigger than any one product: I want to change how people interact with the systems they depend on most.</span>
+        I turn data into products people actually use.
+        <span class="fade">First-gen student. Cognitive scientist. I let the numbers tell me what to build, then I build it until it works for everyone.</span>
       </div>
       <div class="about-body sr">
-        <p>I'm a cognitive science and data science student at UC Berkeley, building at the intersection of product, health, and AI. I've shipped real products — from an AI diabetes platform pitched to investors, to marketplace tools that cut move-out waste on campus.</p>
-        <p>When I'm not building, I'm leading teams at the Fung Institute, captaining the Table Tennis Club, or running consulting sprints with nonprofits through Roots Consulting.</p>
-        <p><a href="#projects">See what I've shipped &darr;</a></p>
+        <p>I study cognitive science and data science at UC Berkeley because good products start with understanding people and end with data-driven decisions. I've shipped an AI diabetes platform backed by 10K+ glucose readings for my twin sister's family, a marketplace that kept 127 items out of landfills, and a lyric engine that makes non-English music actually make sense.</p>
+        <p>I care a lot about accessibility and using data to surface insights for people who usually get left out. That's what led me to building gesture-based games for kids with motor disabilities at a clinic in Mumbai, and what drives most of what I make.</p>
+        <p><a href="#projects">my favourite projects &darr;</a></p>
         <div class="about-meta">
-          <div><div class="meta-label">Focus</div><div class="meta-val">Product &middot; Health-tech &middot; AI</div></div>
+          <div><div class="meta-label">Focus</div><div class="meta-val">Product &middot; Data-Driven Insights &middot; AI</div></div>
           <div><div class="meta-label">Based</div><div class="meta-val">Berkeley, CA</div></div>
         </div>
       </div>
@@ -296,8 +257,17 @@ footer h3{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);
 
     <div class="exp-item sr">
       <div class="exp-top">
+        <div class="exp-co"><a href="https://healthy.kaiserpermanente.org/front-door" target="_blank" rel="noopener">Kaiser Permanente<span class="exp-arrow">&nearr;</span></a></div>
+        <div class="exp-date">Feb 2026 - Present</div>
+      </div>
+      <div class="exp-role">AI Product Management Intern</div>
+      <div class="exp-desc">Led Gen Z AI messaging initiative for 2M+ members under the SVP of Health Plan Technical Services.</div>
+    </div>
+
+    <div class="exp-item sr">
+      <div class="exp-top">
         <div class="exp-co"><a href="https://www.adobe.com" target="_blank" rel="noopener">Adobe<span class="exp-arrow">&nearr;</span></a></div>
-        <div class="exp-date">Aug 2025 - Now</div>
+        <div class="exp-date">Jul 2026 - Present</div>
       </div>
       <div class="exp-role">Student Ambassador</div>
       <div class="exp-desc">1 of 5 selected campus-wide. Creative product advocacy across 45K students.</div>
@@ -306,7 +276,7 @@ footer h3{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);
     <div class="exp-item sr">
       <div class="exp-top">
         <div class="exp-co"><a href="https://www.lennox.com/" target="_blank" rel="noopener">Lennox International<span class="exp-arrow">&nearr;</span></a></div>
-        <div class="exp-date">May 2025 - Aug 2025</div>
+        <div class="exp-date">Jun 2026 - Present</div>
       </div>
       <div class="exp-role">Product Management Intern</div>
       <div class="exp-desc">Reprioritized $2.4M in features across a Fortune 500 climate-tech org.</div>
@@ -314,17 +284,8 @@ footer h3{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);
 
     <div class="exp-item sr">
       <div class="exp-top">
-        <div class="exp-co"><a href="https://healthy.kaiserpermanente.org/front-door" target="_blank" rel="noopener">Kaiser Permanente<span class="exp-arrow">&nearr;</span></a></div>
-        <div class="exp-date">Jan 2026 - May 2026</div>
-      </div>
-      <div class="exp-role">AI Product Management Intern</div>
-      <div class="exp-desc">Led Gen Z AI messaging initiative for 2M+ members under the SVP of Health Plan Technical Services.</div>
-    </div>
-
-    <div class="exp-item sr">
-      <div class="exp-top">
         <div class="exp-co"><a href="https://www.stanford.edu/" target="_blank" rel="noopener">Stanford University<span class="exp-arrow">&nearr;</span></a></div>
-        <div class="exp-date">Jun 2024 - Aug 2024</div>
+        <div class="exp-date">Aug 2024 - Nov 2024</div>
       </div>
       <div class="exp-role">Research Intern</div>
       <div class="exp-desc">Health equity research across 10,000+ patient records. Published.</div>
@@ -344,7 +305,7 @@ footer h3{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);
     <div class="lead-item sr">
       <div class="lead-top">
         <div class="lead-org"><a href="https://funginstitute.berkeley.edu/fung-fellows/student-leadership-team/" target="_blank" rel="noopener">Fung Institute for Engineering Leadership</a></div>
-        <div class="lead-date">Aug 2025 - May 2026</div>
+        <div class="lead-date">Dec 2025 - Present</div>
       </div>
       <div class="lead-role">Curriculum Lead</div>
       <div class="lead-desc">Product + roadmap for a digital health MVP. 6 engineers, 2 healthcare partners.</div>
@@ -352,7 +313,7 @@ footer h3{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);
 
     <div class="lead-item sr">
       <div class="lead-top">
-        <div class="lead-org">Roots Consulting</div>
+        <div class="lead-org"><a href="https://slu296.wixsite.com/rootsconsulting" target="_blank" rel="noopener">Roots Consulting</a></div>
         <div class="lead-date">Jan 2025 - Now</div>
       </div>
       <div class="lead-role">Strategy Consultant</div>
@@ -461,80 +422,86 @@ footer h3{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);
 </div>
 
 <!-- ═══ PHOTO GALLERY ═══ -->
-<section class="block" id="gallery">
-  <div class="wrap">
+<section id="gallery">
+  <div class="wrap" style="padding-top:100px">
     <div class="sec-head">
       <span class="sec-num">05</span>
       <span class="sec-label">Photo Album</span>
     </div>
-    <div class="gallery-grid">
+  </div>
+  <div class="gallery-scroll" id="galleryScroll">
+    <div class="gallery-sticky">
+      <div class="gallery-hint">scroll to explore</div>
+      <div class="gallery-stack" id="galleryStack">
 
-      <div class="gcard sr">
-        <div class="gcard-img"><img src="photos/photo-010.png" alt="Lennox International intern cohort" loading="lazy">
-          <div class="gcard-label"><span class="gnum">[01]</span><span class="gcap">Lennox International Intern Cohort</span></div>
+        <div class="gcard" data-idx="0">
+          <div class="gcard-img"><img src="photos/photo-010.png" alt="Lennox International intern cohort" loading="lazy">
+            <div class="gcard-label"><span class="gnum">[01]</span><span class="gcap">Lennox International Intern Cohort</span></div>
+          </div>
         </div>
-      </div>
 
-      <div class="gcard sr">
-        <div class="gcard-img"><img src="photos/photo-003.png" alt="Kaiser Permanente" loading="lazy">
-          <div class="gcard-label"><span class="gnum">[02]</span><span class="gcap">Kaiser Permanente</span></div>
+        <div class="gcard" data-idx="1">
+          <div class="gcard-img"><img src="photos/photo-003.png" alt="Kaiser Permanente" loading="lazy">
+            <div class="gcard-label"><span class="gnum">[02]</span><span class="gcap">Kaiser Permanente</span></div>
+          </div>
         </div>
-      </div>
 
-      <div class="gcard sr">
-        <div class="gcard-img"><img src="photos/photo-004.png" alt="Adobe" loading="lazy">
-          <div class="gcard-label"><span class="gnum">[03]</span><span class="gcap">Adobe</span></div>
+        <div class="gcard" data-idx="2">
+          <div class="gcard-img"><img src="photos/photo-004.png" alt="Adobe" loading="lazy">
+            <div class="gcard-label"><span class="gnum">[03]</span><span class="gcap">Adobe</span></div>
+          </div>
         </div>
-      </div>
 
-      <div class="gcard sr">
-        <div class="gcard-img"><img src="photos/photo-005.png" alt="EOP Berkeley" loading="lazy">
-          <div class="gcard-label"><span class="gnum">[04]</span><span class="gcap">EOP Berkeley</span></div>
+        <div class="gcard" data-idx="3">
+          <div class="gcard-img"><img src="photos/photo-005.png" alt="EOP Berkeley" loading="lazy">
+            <div class="gcard-label"><span class="gnum">[04]</span><span class="gcap">EOP Berkeley</span></div>
+          </div>
         </div>
-      </div>
 
-      <div class="gcard sr">
-        <div class="gcard-img"><img src="photos/photo-007.png" alt="Cal Hacks 2025" loading="lazy">
-          <div class="gcard-label"><span class="gnum">[05]</span><span class="gcap">Cal Hacks 2025</span></div>
+        <div class="gcard" data-idx="4">
+          <div class="gcard-img"><img src="photos/photo-007.png" alt="Cal Hacks 2025" loading="lazy">
+            <div class="gcard-label"><span class="gnum">[05]</span><span class="gcap">Cal Hacks 2025</span></div>
+          </div>
         </div>
-      </div>
 
-      <div class="gcard sr">
-        <div class="gcard-img"><img src="photos/photo-008.png" alt="Fung Institute for Engineering Leadership" loading="lazy">
-          <div class="gcard-label"><span class="gnum">[06]</span><span class="gcap">Fung Institute for Engineering Leadership 2026</span></div>
+        <div class="gcard" data-idx="5">
+          <div class="gcard-img"><img src="photos/photo-008.png" alt="Fung Institute" loading="lazy">
+            <div class="gcard-label"><span class="gnum">[06]</span><span class="gcap">Fung Institute for Engineering Leadership</span></div>
+          </div>
         </div>
-      </div>
 
-      <div class="gcard sr">
-        <div class="gcard-img"><img src="photos/photo-006.png" alt="Neuroscience Club" loading="lazy">
-          <div class="gcard-label"><span class="gnum">[07]</span><span class="gcap">Neuroscience Club</span></div>
+        <div class="gcard" data-idx="6">
+          <div class="gcard-img"><img src="photos/photo-006.png" alt="Neuroscience Club" loading="lazy">
+            <div class="gcard-label"><span class="gnum">[07]</span><span class="gcap">Neuroscience Club</span></div>
+          </div>
         </div>
-      </div>
 
-      <div class="gcard sr">
-        <div class="gcard-img"><img src="photos/photo-002.png" alt="Lennox community service" loading="lazy">
-          <div class="gcard-label"><span class="gnum">[08]</span><span class="gcap">Lennox Community Service Day</span></div>
+        <div class="gcard" data-idx="7">
+          <div class="gcard-img"><img src="photos/photo-002.png" alt="Lennox community service" loading="lazy">
+            <div class="gcard-label"><span class="gnum">[08]</span><span class="gcap">Lennox Community Service Day</span></div>
+          </div>
         </div>
-      </div>
 
-      <div class="gcard sr">
-        <div class="gcard-img"><img src="photos/photo-009.png" alt="Ping pong 2016" loading="lazy">
-          <div class="gcard-label"><span class="gnum">[09]</span><span class="gcap">Ping Pong (2016)</span></div>
+        <div class="gcard" data-idx="8">
+          <div class="gcard-img"><img src="photos/photo-009.png" alt="Ping pong 2016" loading="lazy">
+            <div class="gcard-label"><span class="gnum">[09]</span><span class="gcap">Ping Pong (2016)</span></div>
+          </div>
         </div>
-      </div>
 
-      <div class="gcard sr">
-        <div class="gcard-img"><img src="photos/photo-000.png" alt="DSO Tournaments 2016" loading="lazy">
-          <div class="gcard-label"><span class="gnum">[10]</span><span class="gcap">Mid Rally (2016)</span></div>
+        <div class="gcard" data-idx="9">
+          <div class="gcard-img"><img src="photos/photo-000.png" alt="DSO Tournaments 2016" loading="lazy">
+            <div class="gcard-label"><span class="gnum">[10]</span><span class="gcap">Mid Rally (2016)</span></div>
+          </div>
         </div>
-      </div>
 
-      <div class="gcard sr">
-        <div class="gcard-img"><img src="photos/photo-001.png" alt="Adobe campus event" loading="lazy">
-          <div class="gcard-label"><span class="gnum">[11]</span><span class="gcap">Adobe Campus Event</span></div>
+        <div class="gcard" data-idx="10">
+          <div class="gcard-img"><img src="photos/photo-001.png" alt="Adobe campus event" loading="lazy">
+            <div class="gcard-label"><span class="gnum">[11]</span><span class="gcap">Adobe Campus Event</span></div>
+          </div>
         </div>
-      </div>
 
+      </div>
+      <div class="gallery-counter" id="galleryCounter">01 / 11</div>
     </div>
   </div>
 </section>
@@ -555,49 +522,23 @@ footer h3{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);
 (function(){
   const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* THEME */
+  /* THEME — dark by default */
   const btn=document.getElementById('themeBtn');
   const saved=localStorage.getItem('theme');
   function applyTheme(t){
-    if(t==='dark'){document.documentElement.setAttribute('data-theme','dark');btn.textContent='Light'}
-    else{document.documentElement.removeAttribute('data-theme');btn.textContent='Dark'}
+    if(t==='light'){document.documentElement.setAttribute('data-theme','light');btn.textContent='Dark'}
+    else{document.documentElement.removeAttribute('data-theme');btn.textContent='Light'}
     localStorage.setItem('theme',t);
   }
-  if(saved)applyTheme(saved);
+  if(saved==='light')applyTheme('light');
   btn.addEventListener('click',()=>{
-    applyTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');
+    const isLight=document.documentElement.getAttribute('data-theme')==='light';
+    applyTheme(isLight?'dark':'light');
   });
 
   /* NAV SCROLL */
   const nav=document.getElementById('nav');
   window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>40),{passive:true});
-
-  /* FLOATING PHOTO REEL - spring physics on drag */
-  const reelCards=document.querySelectorAll('.reel-card');
-  reelCards.forEach(card=>{
-    let isDrag=false,startX,startY,offsetX,offsetY;
-    card.addEventListener('mousedown',e=>{
-      isDrag=true;card.style.animationPlayState='paused';card.style.transition='none';card.style.zIndex=20;
-      const rect=card.getBoundingClientRect();startX=e.clientX;startY=e.clientY;
-      offsetX=e.clientX-rect.left;offsetY=e.clientY-rect.top;
-      e.preventDefault();
-    });
-    window.addEventListener('mousemove',e=>{
-      if(!isDrag)return;
-      const reel=document.getElementById('photoReel');
-      const reelRect=reel.getBoundingClientRect();
-      card.style.left=(e.clientX-reelRect.left-offsetX)+'px';
-      card.style.top=(e.clientY-reelRect.top-offsetY)+'px';
-      card.style.transform='rotate(0deg)';
-    });
-    window.addEventListener('mouseup',()=>{
-      if(!isDrag)return;isDrag=false;
-      card.style.transition='transform .6s cubic-bezier(.25,1,.5,1)';
-      card.style.zIndex='';
-      /* spring back: remove inline left/top after a beat */
-      setTimeout(()=>{card.style.left='';card.style.top='';card.style.transform='';card.style.animationPlayState='';card.style.transition='';},50);
-    });
-  });
 
   /* SCROLL REVEAL (Berkeley press card) */
   const scrollEl=document.getElementById('revealScroll'),cardEl=document.getElementById('revealCard'),metricEls=document.querySelectorAll('#revealMetrics .m');
@@ -617,6 +558,28 @@ footer h3{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);
     /* stopPropagation on nested interactive elements is handled naturally by <a> wrapping */
   });
 
+  /* INTERACTIVE GALLERY — scroll-driven photo stack */
+  const galScroll=document.getElementById('galleryScroll');
+  const galCards=document.querySelectorAll('#galleryStack .gcard');
+  const galCounter=document.getElementById('galleryCounter');
+  if(galScroll&&galCards.length){
+    function updateGallery(){
+      const rect=galScroll.getBoundingClientRect();
+      const total=galScroll.offsetHeight-window.innerHeight;
+      const p=Math.min(Math.max(-rect.top/total,0),0.999);
+      const idx=Math.floor(p*galCards.length);
+      galCards.forEach((c,i)=>{
+        c.classList.remove('active','prev','next');
+        if(i===idx)c.classList.add('active');
+        else if(i===idx-1)c.classList.add('prev');
+        else if(i===idx+1)c.classList.add('next');
+      });
+      galCounter.textContent=String(idx+1).padStart(2,'0')+' / '+String(galCards.length).padStart(2,'0');
+    }
+    window.addEventListener('scroll',updateGallery,{passive:true});
+    updateGallery();
+  }
+
   /* STAGGERED SCROLL REVEAL */
   if(!reduce){
     const obs=new IntersectionObserver(entries=>{
@@ -629,7 +592,6 @@ footer h3{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);
       });
     },{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
     document.querySelectorAll('.sr').forEach((el,i)=>{
-      if(el.closest('.gallery-grid')){el.dataset.delay=i*80;}
       obs.observe(el);
     });
   }else{
