@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tanya Hemdev</title>
-<meta name="description" content="Tanya Hemdev. Builder, cognitive scientist, and data scientist at UC Berkeley.">
+<meta name="description" content="Tanya Hemdev — Builder, cognitive scientist, and data scientist at UC Berkeley.">
 <meta name="og:title" content="Tanya Hemdev">
 <meta name="og:description" content="Builder. CogSci + DS @ Berkeley.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,16 +18,14 @@
   --wrap:min(1120px,90vw);--radius:14px;
   --surface:var(--paper);--text:var(--ink);--text-2:var(--slate);
   --border:rgba(21,22,26,.09);--card-shadow:0 12px 32px rgba(0,0,0,.08);
-  --canvas-bg:none;
 }
 [data-theme="dark"]{
   --surface:#0B0C0E;--paper:#0B0C0E;--paper-2:#131416;--ink:#E8E6DF;--slate:#8B8D94;
   --text:var(--ink);--text-2:var(--slate);--accent:#7B6FFF;
   --border:rgba(255,255,255,.07);--card-shadow:0 12px 32px rgba(0,0,0,.45);
-  --canvas-bg:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1px);
 }
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{font-family:var(--body);background:var(--surface);color:var(--text);line-height:1.6;transition:background .35s,color .35s;background-image:var(--canvas-bg);background-size:24px 24px}
+body{font-family:var(--body);background:var(--surface);color:var(--text);line-height:1.6;transition:background .35s,color .35s;overflow-x:hidden}
 ::selection{background:var(--accent);color:#fff}
 a{color:inherit;text-decoration:none}
 img{max-width:100%;display:block}
@@ -45,10 +43,8 @@ nav.scrolled{background:color-mix(in srgb,var(--surface) 82%,transparent);backdr
 .theme-toggle:hover{border-color:var(--accent);color:var(--accent)}
 
 /* ── HERO ── */
-.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:140px 0 80px}
-.hero-eyebrow{font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;color:var(--text-2);margin-bottom:20px;display:flex;align-items:center;gap:12px}
-.loc-pill{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:99px;border:1px solid var(--border);font-size:.68rem}
-.hero-name{font-family:var(--display);font-size:clamp(3.2rem,8.5vw,7rem);font-weight:900;line-height:.92;letter-spacing:-.045em;margin-bottom:28px;position:relative}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:140px 0 60px;position:relative}
+.hero-name{font-family:var(--display);font-size:clamp(3.4rem,9vw,7.5rem);font-weight:900;line-height:.9;letter-spacing:-.045em;margin-bottom:24px;position:relative}
 .glitch{position:relative;display:inline-block;cursor:default}
 .glitch::before,.glitch::after{content:attr(data-text);position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;opacity:0;transition:opacity .15s}
 .hero:hover .glitch::before,.hero:hover .glitch::after{opacity:1}
@@ -58,17 +54,36 @@ nav.scrolled{background:color-mix(in srgb,var(--surface) 82%,transparent);backdr
 @keyframes g2{0%,100%{clip-path:inset(50% 0 8% 0);transform:translate(3px,-2px)}25%{clip-path:inset(5% 0 52% 0);transform:translate(-3px,1px)}50%{clip-path:inset(42% 0 15% 0);transform:translate(2px,-3px)}75%{clip-path:inset(18% 0 40% 0);transform:translate(-2px,2px)}}
 .hero:hover .glitch::before{animation:g1 .35s steps(4) infinite}
 .hero:hover .glitch::after{animation:g2 .35s steps(4) .04s infinite}
-.hero-sub{font-family:var(--body);font-size:clamp(1rem,1.8vw,1.2rem);color:var(--text-2);max-width:580px;line-height:1.75;margin-bottom:40px;font-weight:400}
-.hero-sub em{font-style:normal;color:var(--text);font-weight:500}
-.hero-ctas{display:flex;gap:14px;flex-wrap:wrap}
-.btn{font-family:var(--mono);font-size:.78rem;padding:12px 28px;border-radius:99px;border:1.5px solid var(--border);transition:all .25s;letter-spacing:.02em;display:inline-block}
-.btn-ghost:hover{border-color:var(--text);transform:translateY(-2px)}
+.hero-tagline{font-family:var(--body);font-size:clamp(1rem,1.8vw,1.2rem);color:var(--text-2);max-width:540px;line-height:1.75;font-weight:400}
+.hero-tagline em{font-style:normal;color:var(--text);font-weight:500}
+
+/* ── FLOATING PHOTO REEL ── */
+.photo-reel{position:absolute;top:50%;right:-2%;transform:translateY(-50%);width:420px;height:520px;pointer-events:none;z-index:0}
+.reel-card{position:absolute;border-radius:12px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.15);border:2px solid var(--border);transition:transform .6s cubic-bezier(.25,1,.5,1),box-shadow .4s;pointer-events:auto;cursor:grab;will-change:transform}
+.reel-card:active{cursor:grabbing}
+.reel-card img{width:100%;height:100%;object-fit:cover;pointer-events:none;user-select:none;-webkit-user-select:none}
+.reel-card:hover{box-shadow:0 16px 48px rgba(0,0,0,.25);z-index:10!important}
+[data-theme="dark"] .reel-card{border-color:rgba(255,255,255,.1);box-shadow:0 8px 32px rgba(0,0,0,.5)}
+[data-theme="dark"] .reel-card:hover{box-shadow:0 16px 48px rgba(0,0,0,.7)}
+.hero .wrap{position:relative;z-index:2}
 
 /* ── SECTION ── */
 .block{padding:100px 0}
-.sec-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:48px;border-bottom:1px solid var(--border);padding-bottom:16px}
-.sec-head h3{font-family:var(--display);font-size:clamp(1.5rem,3vw,2.1rem);font-weight:800;letter-spacing:-.03em}
-.sec-head .idx{font-family:var(--mono);font-size:.68rem;color:var(--text-2);text-transform:uppercase;letter-spacing:.06em}
+.sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:56px;border-bottom:1px solid var(--border);padding-bottom:16px}
+.sec-num{font-family:var(--mono);font-size:.72rem;color:var(--accent);letter-spacing:.02em}
+.sec-label{font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;color:var(--text-2)}
+
+/* ── ABOUT ── */
+.about-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:80px;align-items:start}
+.about-statement{font-family:var(--display);font-size:clamp(1.6rem,3.2vw,2.5rem);font-weight:800;line-height:1.25;letter-spacing:-.03em}
+.about-statement .fade{color:var(--text-2);transition:color .3s}
+.about-body{font-size:.95rem;color:var(--text-2);line-height:1.75}
+.about-body p+p{margin-top:16px}
+.about-body a{color:var(--accent);text-decoration:underline;text-decoration-color:rgba(75,59,251,.3);text-underline-offset:3px;transition:text-decoration-color .2s}
+.about-body a:hover{text-decoration-color:var(--accent)}
+.about-meta{display:flex;gap:40px;margin-top:32px;padding-top:24px;border-top:1px solid var(--border)}
+.about-meta .meta-label{font-family:var(--mono);font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-2);margin-bottom:4px}
+.about-meta .meta-val{font-family:var(--body);font-size:.88rem;font-weight:500;color:var(--text)}
 
 /* ── EXPERIENCE (Yu-style) ── */
 .exp-item{padding:40px 0;border-bottom:1px solid var(--border);transition:background .2s}
@@ -83,25 +98,34 @@ nav.scrolled{background:color-mix(in srgb,var(--surface) 82%,transparent);backdr
 .exp-date{font-family:var(--mono);font-size:.72rem;color:var(--text-2);white-space:nowrap;letter-spacing:.02em}
 .exp-desc{font-size:.95rem;color:var(--text-2);max-width:700px;line-height:1.65;margin-top:4px}
 
+/* ── LEADERSHIP ── */
+.lead-item{padding:32px 0;border-bottom:1px solid var(--border)}
+.lead-item:first-child{padding-top:0}
+.lead-top{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:6px}
+.lead-org{font-family:var(--display);font-size:clamp(1.2rem,3vw,1.8rem);font-weight:800;letter-spacing:-.025em}
+.lead-org a{transition:color .2s}
+.lead-org a:hover{color:var(--accent)}
+.lead-role{font-family:var(--body);font-size:.88rem;color:var(--text);font-weight:500}
+.lead-date{font-family:var(--mono);font-size:.72rem;color:var(--text-2);white-space:nowrap;letter-spacing:.02em}
+.lead-desc{font-size:.9rem;color:var(--text-2);max-width:700px;line-height:1.6;margin-top:4px}
+
 /* ── PROJECTS ── */
-.work-grid{display:grid;grid-template-columns:1fr;gap:20px}
-.case{background:var(--paper-2);border-radius:var(--radius);padding:36px;position:relative;overflow:hidden;transition:transform .25s,box-shadow .25s;cursor:default;border:1px solid var(--border)}
+.work-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.case{background:var(--paper-2);border-radius:var(--radius);padding:36px;position:relative;overflow:hidden;transition:transform .25s,box-shadow .25s;cursor:pointer;border:1px solid var(--border);display:flex;flex-direction:column}
 .case:hover{transform:translateY(-3px);box-shadow:var(--card-shadow)}
 .tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
 .tag{font-family:var(--mono);font-size:.58rem;text-transform:uppercase;letter-spacing:.06em;padding:4px 12px;border-radius:99px;border:1px solid var(--border);color:var(--text-2)}
-.case h4{font-family:var(--display);font-size:1.45rem;font-weight:800;letter-spacing:-.02em;margin-bottom:4px}
+.case h4{font-family:var(--display);font-size:1.35rem;font-weight:800;letter-spacing:-.02em;margin-bottom:4px}
 .case .role{font-family:var(--mono);font-size:.68rem;color:var(--accent);text-transform:uppercase;letter-spacing:.04em;margin-bottom:16px}
 .case p{font-size:.88rem;color:var(--text-2);margin-bottom:10px;line-height:1.65}
 .case p b{color:var(--text);font-weight:600}
-.case-footer{display:flex;align-items:center;justify-content:space-between;margin-top:20px;padding-top:20px;border-top:1px solid var(--border);flex-wrap:wrap;gap:16px}
+.case-footer{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:20px;border-top:1px solid var(--border);flex-wrap:wrap;gap:16px}
 .case-metrics{display:flex;gap:24px}
 .case-metrics .num{font-family:var(--display);font-weight:800;font-size:1rem;line-height:1.2}
 .case-metrics .num .ac{color:var(--accent)}
 .case-metrics .cap{font-family:var(--mono);font-size:.58rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-2);margin-top:2px}
-.case-cta{font-family:var(--mono);font-size:.72rem;color:var(--accent);display:inline-flex;align-items:center;gap:4px;transition:gap .2s}
+.case-cta{font-family:var(--mono);font-size:.72rem;color:var(--accent);display:inline-flex;align-items:center;gap:4px;transition:gap .2s;position:relative;z-index:5}
 .case-cta:hover{gap:8px}
-.cursor-pill{position:fixed;pointer-events:none;z-index:200;font-family:var(--mono);font-size:.62rem;padding:6px 16px;border-radius:99px;background:var(--accent);color:#fff;opacity:0;transform:translate(-50%,-120%) scale(.85);transition:opacity .12s,transform .12s;white-space:nowrap;letter-spacing:.02em}
-.cursor-pill.visible{opacity:1;transform:translate(-50%,-120%) scale(1)}
 
 /* ── SCROLL REVEAL (Berkeley press) ── */
 .reveal-scroll{height:200vh;position:relative}
@@ -129,7 +153,7 @@ nav.scrolled{background:color-mix(in srgb,var(--surface) 82%,transparent);backdr
 .reveal-metrics .num{font-family:var(--display);font-weight:800;font-size:.95rem;line-height:1.2}
 .reveal-metrics .cap{font-family:var(--mono);font-size:.58rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-2);margin-top:2px}
 
-/* ── GALLERY (Yu-style with real photos) ── */
+/* ── GALLERY ── */
 .gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:auto auto auto;gap:14px}
 @media(max-width:700px){.gallery-grid{grid-template-columns:1fr 1fr}}
 .gallery-grid .gcard:nth-child(1){grid-column:1/3}
@@ -152,9 +176,28 @@ footer h3{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);
 .cbtn{font-family:var(--mono);font-size:.72rem;padding:11px 24px;border-radius:99px;border:1.5px solid var(--border);transition:all .25s;letter-spacing:.02em}
 .cbtn:hover{border-color:var(--accent);background:var(--accent);color:#fff;transform:translateY(-2px);box-shadow:0 6px 20px rgba(75,59,251,.2)}
 .fine{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.62rem;color:var(--text-2);opacity:.4;flex-wrap:wrap;gap:8px}
+
+/* ── SCROLL REVEAL ANIMATION ── */
 .sr{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease}
 .sr.visible{opacity:1;transform:translateY(0)}
 
+/* ── REEL ORBIT ANIMATION ── */
+@keyframes float-orbit{
+  0%{transform:translate(var(--x),var(--y)) rotate(var(--r))}
+  25%{transform:translate(calc(var(--x) + 15px),calc(var(--y) - 20px)) rotate(calc(var(--r) + 2deg))}
+  50%{transform:translate(calc(var(--x) - 10px),calc(var(--y) - 8px)) rotate(calc(var(--r) - 1deg))}
+  75%{transform:translate(calc(var(--x) + 8px),calc(var(--y) + 12px)) rotate(calc(var(--r) + 1.5deg))}
+  100%{transform:translate(var(--x),var(--y)) rotate(var(--r))}
+}
+.reel-card{animation:float-orbit var(--dur,12s) ease-in-out infinite}
+.reel-card:hover{animation-play-state:paused}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .about-grid{grid-template-columns:1fr;gap:40px}
+  .work-grid{grid-template-columns:1fr}
+  .photo-reel{display:none}
+}
 @media(max-width:600px){
   .hero{padding:120px 0 60px}
   .hero-name{font-size:clamp(2.4rem,12vw,3.5rem)}
@@ -166,6 +209,8 @@ footer h3{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);
   .sec-head{flex-direction:column;gap:4px}
   .exp-co{font-size:clamp(1.2rem,6vw,1.8rem)}
   .exp-top{flex-direction:column;gap:4px}
+  .lead-top{flex-direction:column;gap:4px}
+  .about-meta{flex-direction:column;gap:20px}
 }
 </style>
 </head>
@@ -175,8 +220,9 @@ footer h3{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);
   <div class="nav-inner">
     <a href="#" class="nav-name">tanya hemdev</a>
     <div class="nav-links">
+      <a href="#about">About</a>
       <a href="#experience">Experience</a>
-      <a href="#work">Work</a>
+      <a href="#projects">Projects</a>
       <a href="#gallery">Gallery</a>
       <a href="#contact">Contact</a>
       <button class="theme-toggle" id="themeBtn" aria-label="Toggle theme">Dark</button>
@@ -184,59 +230,68 @@ footer h3{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);
   </div>
 </nav>
 
+<!-- ═══ HERO ═══ -->
 <header class="hero">
   <div class="wrap">
-    <div class="hero-eyebrow">
-      Builder &middot; Cognitive Science + Data Science @ Berkeley
-      <span class="loc-pill">Berkeley, CA</span>
-    </div>
     <h1 class="hero-name"><span class="glitch" data-text="Tanya Hemdev">Tanya Hemdev</span></h1>
-    <p class="hero-sub">Shortening the distance between <em>thinking, building, testing,</em> and <em>learning.</em></p>
-    <div class="hero-ctas">
-      <a href="#contact" class="btn btn-ghost">Get in touch</a>
+    <p class="hero-tagline">Shortening the distance between <em>thinking, building, testing,</em> and <em>learning.</em></p>
+  </div>
+
+  <!-- Floating photo reel -->
+  <div class="photo-reel" id="photoReel">
+    <div class="reel-card" style="width:160px;height:120px;--x:0px;--y:-180px;--r:-6deg;--dur:14s;z-index:3">
+      <img src="photos/photo-004.png" alt="Adobe" draggable="false">
+    </div>
+    <div class="reel-card" style="width:180px;height:130px;--x:120px;--y:-40px;--r:4deg;--dur:16s;z-index:2">
+      <img src="photos/photo-010.png" alt="Lennox" draggable="false">
+    </div>
+    <div class="reel-card" style="width:150px;height:110px;--x:-30px;--y:80px;--r:-3deg;--dur:12s;z-index:4">
+      <img src="photos/photo-003.png" alt="Kaiser" draggable="false">
+    </div>
+    <div class="reel-card" style="width:170px;height:120px;--x:160px;--y:180px;--r:7deg;--dur:18s;z-index:1">
+      <img src="photos/photo-008.png" alt="Fung" draggable="false">
+    </div>
+    <div class="reel-card" style="width:140px;height:105px;--x:50px;--y:320px;--r:-4deg;--dur:15s;z-index:5">
+      <img src="photos/photo-007.png" alt="Cal Hacks" draggable="false">
+    </div>
+    <div class="reel-card" style="width:155px;height:115px;--x:-60px;--y:-50px;--r:2deg;--dur:13s;z-index:6">
+      <img src="photos/photo-005.png" alt="EOP" draggable="false">
     </div>
   </div>
 </header>
 
-<!-- ═══ EXPERIENCE (Yu-style) ═══ -->
+<!-- ═══ ABOUT ═══ -->
+<section class="block" id="about">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <span class="sec-label">About</span>
+    </div>
+
+    <div class="about-grid">
+      <div class="about-statement sr">
+        I love to build, to take an idea and bring it to life.
+        <span class="fade">What drives me is bigger than any one product: I want to change how people interact with the systems they depend on most.</span>
+      </div>
+      <div class="about-body sr">
+        <p>I'm a cognitive science and data science student at UC Berkeley, building at the intersection of product, health, and AI. I've shipped real products — from an AI diabetes platform pitched to investors, to marketplace tools that cut move-out waste on campus.</p>
+        <p>When I'm not building, I'm leading teams at the Fung Institute, captaining the Table Tennis Club, or running consulting sprints with nonprofits through Roots Consulting.</p>
+        <p><a href="#projects">See what I've shipped &darr;</a></p>
+        <div class="about-meta">
+          <div><div class="meta-label">Focus</div><div class="meta-val">Product &middot; Health-tech &middot; AI</div></div>
+          <div><div class="meta-label">Based</div><div class="meta-val">Berkeley, CA</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ EXPERIENCE ═══ -->
 <section class="block" id="experience">
   <div class="wrap">
-    <div class="sec-head"><h3>Experience</h3><span class="idx"></span></div>
-
-    <div class="exp-item sr">
-      <div class="exp-top">
-        <div class="exp-co"><a href="https://healthy.kaiserpermanente.org/front-door" target="_blank" rel="noopener">Kaiser Permanente<span class="exp-arrow">&nearr;</span></a></div>
-        <div class="exp-date">Jan 2026 - May 2026</div>
-      </div>
-      <div class="exp-role">AI Product Management Intern</div>
-      <div class="exp-desc">Led Gen Z AI messaging initiative for 2M+ members under the SVP of Health Plan Technical Services.</div>
-    </div>
-
-    <div class="exp-item sr">
-      <div class="exp-top">
-        <div class="exp-co"><a href="https://www.lennox.com/" target="_blank" rel="noopener">Lennox International<span class="exp-arrow">&nearr;</span></a></div>
-        <div class="exp-date">May 2025 - Aug 2025</div>
-      </div>
-      <div class="exp-role">Product Management Intern</div>
-      <div class="exp-desc">Reprioritized $2.4M in features across a Fortune 500 climate-tech org.</div>
-    </div>
-
-    <div class="exp-item sr">
-      <div class="exp-top">
-        <div class="exp-co"><a href="https://funginstitute.berkeley.edu/fung-fellows/student-leadership-team/" target="_blank" rel="noopener">Fung Institute<span class="exp-arrow">&nearr;</span></a></div>
-        <div class="exp-date">Aug 2025 - May 2026</div>
-      </div>
-      <div class="exp-role">Curriculum Lead</div>
-      <div class="exp-desc">Product + roadmap for a digital health MVP. 6 engineers, 2 healthcare partners.</div>
-    </div>
-
-    <div class="exp-item sr">
-      <div class="exp-top">
-        <div class="exp-co"><a href="https://skydeck.berkeley.edu/" target="_blank" rel="noopener">Berkeley SkyDeck<span class="exp-arrow">&nearr;</span></a></div>
-        <div class="exp-date">Jan 2025 - May 2025</div>
-      </div>
-      <div class="exp-role">ACE Intern</div>
-      <div class="exp-desc">Built and pitched TAN-1 to investors. Berkeley's flagship startup accelerator.</div>
+    <div class="sec-head">
+      <span class="sec-num">02</span>
+      <span class="sec-label">Experience</span>
     </div>
 
     <div class="exp-item sr">
@@ -250,6 +305,24 @@ footer h3{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);
 
     <div class="exp-item sr">
       <div class="exp-top">
+        <div class="exp-co"><a href="https://www.lennox.com/" target="_blank" rel="noopener">Lennox International<span class="exp-arrow">&nearr;</span></a></div>
+        <div class="exp-date">May 2025 - Aug 2025</div>
+      </div>
+      <div class="exp-role">Product Management Intern</div>
+      <div class="exp-desc">Reprioritized $2.4M in features across a Fortune 500 climate-tech org.</div>
+    </div>
+
+    <div class="exp-item sr">
+      <div class="exp-top">
+        <div class="exp-co"><a href="https://healthy.kaiserpermanente.org/front-door" target="_blank" rel="noopener">Kaiser Permanente<span class="exp-arrow">&nearr;</span></a></div>
+        <div class="exp-date">Jan 2026 - May 2026</div>
+      </div>
+      <div class="exp-role">AI Product Management Intern</div>
+      <div class="exp-desc">Led Gen Z AI messaging initiative for 2M+ members under the SVP of Health Plan Technical Services.</div>
+    </div>
+
+    <div class="exp-item sr">
+      <div class="exp-top">
         <div class="exp-co"><a href="https://www.stanford.edu/" target="_blank" rel="noopener">Stanford University<span class="exp-arrow">&nearr;</span></a></div>
         <div class="exp-date">Jun 2024 - Aug 2024</div>
       </div>
@@ -257,82 +330,101 @@ footer h3{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);
       <div class="exp-desc">Health equity research across 10,000+ patient records. Published.</div>
     </div>
 
-    <div class="exp-item sr">
-      <div class="exp-top">
-        <div class="exp-co"><a href="https://www.linkedin.com/company/basics-berkeley/" target="_blank" rel="noopener">BASICS<span class="exp-arrow">&nearr;</span></a></div>
-        <div class="exp-date">Aug 2024 - Dec 2024</div>
-      </div>
-      <div class="exp-role">Accelerator Fellow</div>
-      <div class="exp-desc">Pitched TAN-1 to venture investors and faculty. Featured in Berkeley L&amp;S News.</div>
+  </div>
+</section>
+
+<!-- ═══ LEADERSHIP ═══ -->
+<section class="block" id="leadership">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">03</span>
+      <span class="sec-label">Leadership</span>
     </div>
 
-    <div class="exp-item sr">
-      <div class="exp-top">
-        <div class="exp-co">Therapy Tales Clinic</div>
-        <div class="exp-date">May 2023 - Aug 2023</div>
+    <div class="lead-item sr">
+      <div class="lead-top">
+        <div class="lead-org"><a href="https://funginstitute.berkeley.edu/fung-fellows/student-leadership-team/" target="_blank" rel="noopener">Fung Institute for Engineering Leadership</a></div>
+        <div class="lead-date">Aug 2025 - May 2026</div>
       </div>
-      <div class="exp-role">Product UX Intern</div>
-      <div class="exp-desc">Gesture-controlled learning game for kids with disabilities. Mumbai speech clinic.</div>
+      <div class="lead-role">Curriculum Lead</div>
+      <div class="lead-desc">Product + roadmap for a digital health MVP. 6 engineers, 2 healthcare partners.</div>
+    </div>
+
+    <div class="lead-item sr">
+      <div class="lead-top">
+        <div class="lead-org">Roots Consulting</div>
+        <div class="lead-date">Jan 2025 - Now</div>
+      </div>
+      <div class="lead-role">Strategy Consultant</div>
+      <div class="lead-desc">Pro-bono consulting for Bay Area nonprofits. Growth strategy, ops, and community engagement.</div>
+    </div>
+
+    <div class="lead-item sr">
+      <div class="lead-top">
+        <div class="lead-org">UC Berkeley Table Tennis Club</div>
+        <div class="lead-date">Aug 2024 - Now</div>
+      </div>
+      <div class="lead-role">Captain</div>
+      <div class="lead-desc">Leading competitive and recreational programs. Tournament strategy and team development.</div>
     </div>
 
   </div>
 </section>
 
-<!-- ═══ SELECTED WORK ═══ -->
-<section class="block" id="work">
+<!-- ═══ PROJECTS ═══ -->
+<section class="block" id="projects">
   <div class="wrap">
-    <div class="sec-head"><h3>Selected work</h3><span class="idx">Problem &middot; Decision &middot; Outcome</span></div>
+    <div class="sec-head">
+      <span class="sec-num">04</span>
+      <span class="sec-label">Projects</span>
+    </div>
     <div class="work-grid">
 
-      <div class="case" data-pill="AI glucose risk engine. 80+ interviews. Built after my twin's diagnosis.">
-        <div class="tags"><span class="tag">Health-tech</span><span class="tag">0&rarr;1</span><span class="tag">Founder</span></div>
-        <h4>TAN-1: Predictive Diabetes Platform</h4>
-        <div class="role">Founder / Product Lead</div>
-        <p><b>Problem:</b> Families facing a new Type 1 diagnosis juggle glucose readings, carb math, and emergencies across disconnected tools.</p>
-        <p><b>What I built:</b> An AI glucose risk engine that turns CGM noise into plain-English caregiver alerts. 92% accuracy across 10K+ readings. Started after my twin sister's diagnosis.</p>
-        <p><b>Result:</b> Pitched at Berkeley's BASICS accelerator. Featured in UC Berkeley L&amp;S News.</p>
-        <div class="case-footer">
-          <div class="case-metrics"><div><div class="num">80<span class="ac">+</span></div><div class="cap">interviews</div></div><div><div class="num">92<span class="ac">%</span></div><div class="cap">accuracy</div></div><div><div class="num">10K<span class="ac">+</span></div><div class="cap">readings</div></div></div>
-          <a href="tan1.html" class="case-cta">&nearr; Open Dashboard</a>
-        </div>
-      </div>
-
-      <div class="case" data-pill="Spotify API + NLP. Cultural context that Google Translate misses.">
-        <div class="tags"><span class="tag">NLP</span><span class="tag">Music-tech</span><span class="tag">0&rarr;1</span></div>
-        <h4>LyricSync: Cultural Context Engine</h4>
-        <div class="role">Founder / Builder</div>
-        <p><b>Problem:</b> 128M people watched Bad Bunny's Super Bowl halftime. Google Translate gave them "Uncle asked me" for "Titi Me Pregunt&oacute;." The music hits. The meaning doesn't.</p>
-        <p><b>What I built:</b> A Spotify-connected lyric sync engine with contextual translations, slang dictionaries, and cultural annotations. Poetry stays poetry. Slang stays slang.</p>
-        <p><b>Result:</b> 50+ songs across 4 albums. 2K+ users. Sub-50ms lookup latency.</p>
-        <div class="case-footer">
-          <div class="case-metrics"><div><div class="num">2K<span class="ac">+</span></div><div class="cap">users</div></div><div><div class="num">50<span class="ac">+</span></div><div class="cap">songs</div></div><div><div class="num">4</div><div class="cap">albums</div></div></div>
-          <a href="lyricsync.html" class="case-cta">&nearr; Open LyricSync</a>
-        </div>
-      </div>
-
-      <div class="case" data-pill="Pinterest-style marketplace. 127 items listed in 72 hours, one campus.">
+      <a href="curb.html" class="case sr" data-project>
         <div class="tags"><span class="tag">Marketplace</span><span class="tag">Sustainability</span><span class="tag">0&rarr;1</span></div>
         <h4>Curb: Student Marketplace</h4>
         <div class="role">Founder / Builder</div>
         <p><b>Problem:</b> US colleges generate 12.1M tons of move-out waste every year. Students throw away furniture that incoming students buy brand new three months later.</p>
-        <p><b>What I built:</b> A hyperlocal peer-to-peer marketplace. List it, match it, hand it off within the 72-hour move-out window. No app download, no shipping.</p>
-        <p><b>Result:</b> UC Berkeley pilot: 127 items listed, 84 handed off, 8.4 min avg match time, 66% conversion.</p>
+        <p><b>What I built:</b> A hyperlocal peer-to-peer marketplace. List it, match it, hand it off within the 72-hour move-out window.</p>
         <div class="case-footer">
           <div class="case-metrics"><div><div class="num">127</div><div class="cap">items listed</div></div><div><div class="num">84</div><div class="cap">handed off</div></div><div><div class="num">66<span class="ac">%</span></div><div class="cap">conversion</div></div></div>
-          <a href="curb.html" class="case-cta">&nearr; Open Marketplace</a>
+          <span class="case-cta">&nearr; Open</span>
         </div>
-      </div>
+      </a>
 
-      <div class="case" data-pill="Gesture-controlled adaptive game. Built with clinicians in Mumbai.">
+      <a href="tan1.html" class="case sr" data-project>
+        <div class="tags"><span class="tag">Health-tech</span><span class="tag">0&rarr;1</span><span class="tag">Founder</span></div>
+        <h4>TAN-1: Predictive Diabetes Platform</h4>
+        <div class="role">Founder / Product Lead</div>
+        <p><b>Problem:</b> Families facing a new Type 1 diagnosis juggle glucose readings, carb math, and emergencies across disconnected tools.</p>
+        <p><b>What I built:</b> An AI glucose risk engine that turns CGM noise into plain-English caregiver alerts. Started after my twin sister's diagnosis.</p>
+        <div class="case-footer">
+          <div class="case-metrics"><div><div class="num">80<span class="ac">+</span></div><div class="cap">interviews</div></div><div><div class="num">92<span class="ac">%</span></div><div class="cap">accuracy</div></div><div><div class="num">10K<span class="ac">+</span></div><div class="cap">readings</div></div></div>
+          <span class="case-cta">&nearr; Open</span>
+        </div>
+      </a>
+
+      <a href="lyricsync.html" class="case sr" data-project>
+        <div class="tags"><span class="tag">NLP</span><span class="tag">Music-tech</span><span class="tag">0&rarr;1</span></div>
+        <h4>LyricSync: Cultural Context Engine</h4>
+        <div class="role">Founder / Builder</div>
+        <p><b>Problem:</b> 128M people watched Bad Bunny's Super Bowl halftime. Google Translate gave them "Uncle asked me" for "Titi Me Pregunt&oacute;." The music hits. The meaning doesn't.</p>
+        <p><b>What I built:</b> A Spotify-connected lyric sync engine with contextual translations. Poetry stays poetry. Slang stays slang.</p>
+        <div class="case-footer">
+          <div class="case-metrics"><div><div class="num">2K<span class="ac">+</span></div><div class="cap">users</div></div><div><div class="num">50<span class="ac">+</span></div><div class="cap">songs</div></div><div><div class="num">4</div><div class="cap">albums</div></div></div>
+          <span class="case-cta">&nearr; Open</span>
+        </div>
+      </a>
+
+      <div class="case sr">
         <div class="tags"><span class="tag">Accessibility</span><span class="tag">EdTech</span><span class="tag">Computer Vision</span></div>
-        <h4>NeuroLearner: Gesture Controller Platformer</h4>
+        <h4>NeuroLearner: Gesture Platformer</h4>
         <div class="role">Product UX Intern &middot; Therapy Tales Clinic</div>
         <p><b>Problem:</b> Kids with motor and cognitive disabilities were locked out of learning games built for able-bodied play.</p>
-        <p><b>What I built:</b> OpenCV/MediaPipe hand-gesture tracking for an adaptive learning game. Difficulty and input adapt to each child. Designed with clinicians in a Mumbai speech clinic.</p>
-        <p><b>Result:</b> A playable clinical tool that met children where their ability actually was.</p>
+        <p><b>What I built:</b> OpenCV/MediaPipe hand-gesture tracking for an adaptive learning game. Designed with clinicians in a Mumbai speech clinic.</p>
         <div class="case-footer">
           <div class="case-metrics"><div><div class="num">Gesture<br>control</div><div class="cap">adaptive input</div></div><div><div class="num">Clinic<br>tested</div><div class="cap">with clinicians</div></div></div>
-          <a href="#" class="case-cta">&nearr; View Project</a>
+          <span class="case-cta" style="opacity:.35">&nearr; Coming soon</span>
         </div>
       </div>
 
@@ -371,7 +463,10 @@ footer h3{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);
 <!-- ═══ PHOTO GALLERY ═══ -->
 <section class="block" id="gallery">
   <div class="wrap">
-    <div class="sec-head"><h3>Photo Album</h3><span class="idx"></span></div>
+    <div class="sec-head">
+      <span class="sec-num">05</span>
+      <span class="sec-label">Photo Album</span>
+    </div>
     <div class="gallery-grid">
 
       <div class="gcard sr">
@@ -456,8 +551,6 @@ footer h3{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);
   </div>
 </footer>
 
-<div class="cursor-pill" id="cursorPill"></div>
-
 <script>
 (function(){
   const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -479,6 +572,33 @@ footer h3{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);
   const nav=document.getElementById('nav');
   window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>40),{passive:true});
 
+  /* FLOATING PHOTO REEL - spring physics on drag */
+  const reelCards=document.querySelectorAll('.reel-card');
+  reelCards.forEach(card=>{
+    let isDrag=false,startX,startY,offsetX,offsetY;
+    card.addEventListener('mousedown',e=>{
+      isDrag=true;card.style.animationPlayState='paused';card.style.transition='none';card.style.zIndex=20;
+      const rect=card.getBoundingClientRect();startX=e.clientX;startY=e.clientY;
+      offsetX=e.clientX-rect.left;offsetY=e.clientY-rect.top;
+      e.preventDefault();
+    });
+    window.addEventListener('mousemove',e=>{
+      if(!isDrag)return;
+      const reel=document.getElementById('photoReel');
+      const reelRect=reel.getBoundingClientRect();
+      card.style.left=(e.clientX-reelRect.left-offsetX)+'px';
+      card.style.top=(e.clientY-reelRect.top-offsetY)+'px';
+      card.style.transform='rotate(0deg)';
+    });
+    window.addEventListener('mouseup',()=>{
+      if(!isDrag)return;isDrag=false;
+      card.style.transition='transform .6s cubic-bezier(.25,1,.5,1)';
+      card.style.zIndex='';
+      /* spring back: remove inline left/top after a beat */
+      setTimeout(()=>{card.style.left='';card.style.top='';card.style.transform='';card.style.animationPlayState='';card.style.transition='';},50);
+    });
+  });
+
   /* SCROLL REVEAL (Berkeley press card) */
   const scrollEl=document.getElementById('revealScroll'),cardEl=document.getElementById('revealCard'),metricEls=document.querySelectorAll('#revealMetrics .m');
   if(!reduce&&scrollEl){
@@ -492,12 +612,9 @@ footer h3{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);
     window.addEventListener('scroll',onReveal,{passive:true});onReveal();
   }
 
-  /* CURSOR PILL ON PROJECT CARDS */
-  const pill=document.getElementById('cursorPill');
-  document.querySelectorAll('.case[data-pill]').forEach(c=>{
-    c.addEventListener('mouseenter',()=>{pill.textContent=c.dataset.pill;pill.classList.add('visible')});
-    c.addEventListener('mouseleave',()=>pill.classList.remove('visible'));
-    c.addEventListener('mousemove',e=>{pill.style.left=e.clientX+'px';pill.style.top=e.clientY+'px'});
+  /* PROJECT CARDS: full-card click-through */
+  document.querySelectorAll('.case[data-project]').forEach(card=>{
+    /* stopPropagation on nested interactive elements is handled naturally by <a> wrapping */
   });
 
   /* STAGGERED SCROLL REVEAL */
@@ -512,7 +629,6 @@ footer h3{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);
       });
     },{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
     document.querySelectorAll('.sr').forEach((el,i)=>{
-      /* stagger gallery cards */
       if(el.closest('.gallery-grid')){el.dataset.delay=i*80;}
       obs.observe(el);
     });
