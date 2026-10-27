@@ -147,6 +147,7 @@ a{color:inherit;text-decoration:none}
     <div class="nav-links">
       <a href="index.html" class="nav-pill">&larr; Portfolio</a>
       <button class="nav-pill" id="ghBtn">GitHub</button>
+      <a href="https://tanhemdev.github.io/curb/" target="_blank" rel="noopener" class="nav-pill red">Open the app &nearr;</a>
     </div>
   </div>
 </div>
@@ -164,10 +165,9 @@ a{color:inherit;text-decoration:none}
     <h2 class="problem-h">Every May, perfectly good furniture goes to the landfill. Every August, freshmen buy it brand new.</h2>
     <p class="problem-sub">US colleges generate massive move-out waste because there's no easy way to hand stuff off when everyone's moving at the same time. It's not a lack of caring — it's a logistics problem.</p>
     <div class="problem-stats">
-      <div class="pstat"><div class="pstat-val">12.1<span class="unit">M</span></div><div class="pstat-label">tons furniture waste/yr</div></div>
-      <div class="pstat"><div class="pstat-val">0.3<span class="unit">%</span></div><div class="pstat-label">furniture recycled</div></div>
-      <div class="pstat"><div class="pstat-val">$12.2<span class="unit">B</span></div><div class="pstat-label">dorm furnishing spend/yr</div></div>
-      <div class="pstat"><div class="pstat-val">4,000<span class="unit">+</span></div><div class="pstat-label">US colleges affected</div></div>
+      <div class="pstat"><div class="pstat-val">12.1<span class="unit">M</span></div><div class="pstat-label">tons of US furniture thrown out (EPA, 2018)</div></div>
+      <div class="pstat"><div class="pstat-val">80<span class="unit">%</span></div><div class="pstat-label">of it landfilled</div></div>
+      <div class="pstat"><div class="pstat-val">0.3<span class="unit">%</span></div><div class="pstat-label">recycled</div></div>
     </div>
   </div>
 </div>
@@ -195,10 +195,10 @@ a{color:inherit;text-decoration:none}
   <div class="modal">
     <button class="modal-close" id="ghClose">&times;</button>
     <h3>Technical Architecture</h3>
-    <p style="font-size:.88rem;color:var(--text-2);margin-bottom:12px;line-height:1.65">Curb is a mobile-first PWA geo-fenced to a 2-mile campus radius. Listings auto-expire in 72 hours. Real-time sync via Cloud Firestore, .edu email validation, and automatic image compression on upload.</p>
+    <p style="font-size:.88rem;color:var(--text-2);margin-bottom:12px;line-height:1.65">Curb is a mobile-first Next.js app geo-fenced to a 2-mile campus radius. Listings expire after 72 hours. Supabase handles .edu-only magic-link sign-in, Postgres with row-level security, photo storage and live chat. Photos are compressed in the browser before upload. The live demo runs the same app on sample listings.</p>
     <div class="tech-tags">
-      <span class="tech-tag">React</span><span class="tech-tag">Tailwind CSS</span><span class="tech-tag">Node.js</span>
-      <span class="tech-tag">Cloud Firestore</span><span class="tech-tag">Firebase Auth (.edu)</span><span class="tech-tag">Google Maps API</span><span class="tech-tag">PWA</span>
+      <span class="tech-tag">Next.js</span><span class="tech-tag">React</span><span class="tech-tag">Supabase Postgres + RLS</span>
+      <span class="tech-tag">Supabase Auth (.edu)</span><span class="tech-tag">Supabase Realtime</span><span class="tech-tag">PWA</span>
     </div>
     <a href="https://github.com/tanhemdev/curb" target="_blank" rel="noopener" class="modal-link">View source on GitHub &nearr;</a>
   </div>
@@ -237,22 +237,21 @@ a{color:inherit;text-decoration:none}
 <!-- IMPACT -->
 <div class="impact-section">
   <div class="impact-inner">
-    <div class="impact-label">Pilot Impact — UC Berkeley, May 2025</div>
-    <h3 class="impact-h">First pilot. One campus. One move-out week.</h3>
-    <p class="impact-sub">We ran a 72-hour pilot during Berkeley's May move-out window. No marketing budget — just flyers in dorms and a GroupMe blast. Here's what happened.</p>
+    <div class="impact-label">Where It Stands · UC Berkeley</div>
+    <h3 class="impact-h">First pilot. One campus. Now a working app.</h3>
+    <p class="impact-sub">In Curb's first move-out pilot at Berkeley, students listed 127 items. The product is now rebuilt as a working app with a live demo: list, browse, chat and hand off, with .edu sign-in and 72-hour listings enforced in the database.</p>
     <div class="impact-grid">
-      <div class="impact-card"><div class="impact-val">127</div><div class="impact-desc">Items Listed</div></div>
-      <div class="impact-card"><div class="impact-val">84</div><div class="impact-desc">Items Handed Off</div></div>
-      <div class="impact-card"><div class="impact-val">~1,200 lbs</div><div class="impact-desc">Waste Diverted</div></div>
-      <div class="impact-card"><div class="impact-val">8.4 min</div><div class="impact-desc">Avg Time-to-Match</div></div>
-      <div class="impact-card"><div class="impact-val">66%</div><div class="impact-desc">Listing Conversion</div></div>
+      <div class="impact-card"><div class="impact-val">127</div><div class="impact-desc">Items Listed in the Pilot</div></div>
+      <div class="impact-card"><div class="impact-val">72h</div><div class="impact-desc">Listing Window</div></div>
+      <div class="impact-card"><div class="impact-val">.edu</div><div class="impact-desc">Students Only</div></div>
+      <div class="impact-card"><div class="impact-val"><a href="https://tanhemdev.github.io/curb/" target="_blank" rel="noopener" style="color:inherit">Live</a></div><div class="impact-desc">Demo You Can Try</div></div>
     </div>
     <div class="next-box">
       <h4>What's Next</h4>
       <div class="next-list">
-        <div class="next-item"><span class="next-num">1</span>Expand to 5 Bay Area campuses for Fall 2026 move-in window (Stanford, SJSU, USF, SCU, Cal)</div>
-        <div class="next-item"><span class="next-num">2</span>Image-based auto-categorization using a fine-tuned ResNet model to reduce listing friction</div>
-        <div class="next-item"><span class="next-num">3</span>Partnership with UC Berkeley Office of Sustainability for official university endorsement</div>
+        <div class="next-item"><span class="next-num">1</span>Run the next Berkeley move-out on the new app and measure handoffs, not just listings</div>
+        <div class="next-item"><span class="next-num">2</span>Push notifications when someone wants your item</div>
+        <div class="next-item"><span class="next-num">3</span>A second campus</div>
       </div>
     </div>
   </div>

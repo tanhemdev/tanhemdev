@@ -235,7 +235,7 @@ footer h3{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);
         <span class="fade">First-gen student. Cognitive scientist. I let the numbers tell me what to build, then I build it until it works for everyone.</span>
       </div>
       <div class="about-body sr">
-        <p>I study cognitive science and data science at UC Berkeley because good products start with understanding people and end with data-driven decisions. I've shipped an AI diabetes platform backed by 10K+ glucose readings for my twin sister's family, a marketplace that kept 127 items out of landfills, and a lyric engine that makes non-English music actually make sense.</p>
+        <p>I study cognitive science and data science at UC Berkeley because good products start with understanding people and end with data-driven decisions. I've built an AI diabetes alert system that started with my twin sister's diagnosis, a student marketplace where 127 items were listed in its first move-out pilot, and a lyric engine that makes non-English music actually make sense.</p>
         <p>I care a lot about accessibility and using data to surface insights for people who usually get left out. That's what led me to building gesture-based games for kids with motor disabilities at a clinic in Mumbai, and what drives most of what I make.</p>
         <p><a href="#projects">my favourite projects &darr;</a></p>
         <div class="about-meta">
@@ -345,10 +345,10 @@ footer h3{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);
         <div class="tags"><span class="tag">Marketplace</span><span class="tag">Sustainability</span><span class="tag">0&rarr;1</span></div>
         <h4>Curb: Student Marketplace</h4>
         <div class="role">Founder / Builder</div>
-        <p><b>Problem:</b> US colleges generate 12.1M tons of move-out waste every year. Students throw away furniture that incoming students buy brand new three months later.</p>
+        <p><b>Problem:</b> Every move-out, perfectly good furniture goes to the curb, and the next class buys the same things new. Nationally, 12.1M tons of furniture were thrown out in 2018 and about 80% was landfilled (EPA).</p>
         <p><b>What I built:</b> A hyperlocal peer-to-peer marketplace. List it, match it, hand it off within the 72-hour move-out window.</p>
         <div class="case-footer">
-          <div class="case-metrics"><div><div class="num">127</div><div class="cap">items listed</div></div><div><div class="num">84</div><div class="cap">handed off</div></div><div><div class="num">66<span class="ac">%</span></div><div class="cap">conversion</div></div></div>
+          <div class="case-metrics"><div><div class="num">127</div><div class="cap">items listed in pilot</div></div><div><div class="num">72h</div><div class="cap">listing window</div></div><div><div class="num">Live</div><div class="cap">demo</div></div></div>
           <span class="case-cta">&nearr; Open</span>
         </div>
       </a>
@@ -360,7 +360,7 @@ footer h3{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);
         <p><b>Problem:</b> Families facing a new Type 1 diagnosis juggle glucose readings, carb math, and emergencies across disconnected tools.</p>
         <p><b>What I built:</b> An AI glucose risk engine that turns CGM noise into plain-English caregiver alerts. Started after my twin sister's diagnosis.</p>
         <div class="case-footer">
-          <div class="case-metrics"><div><div class="num">80<span class="ac">+</span></div><div class="cap">interviews</div></div><div><div class="num">92<span class="ac">%</span></div><div class="cap">accuracy</div></div><div><div class="num">10K<span class="ac">+</span></div><div class="cap">readings</div></div></div>
+          <div class="case-metrics"><div><div class="num">80<span class="ac">+</span></div><div class="cap">interviews</div></div><div><div class="num">97<span class="ac">%</span></div><div class="cap">of lows flagged early (simulated)</div></div><div><div class="num">47<span class="ac">%</span></div><div class="cap">fewer false alarms</div></div></div>
           <span class="case-cta">&nearr; Open</span>
         </div>
       </a>
@@ -369,25 +369,25 @@ footer h3{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);
         <div class="tags"><span class="tag">NLP</span><span class="tag">Music-tech</span><span class="tag">0&rarr;1</span></div>
         <h4>LyricSync: Cultural Context Engine</h4>
         <div class="role">Founder / Builder</div>
-        <p><b>Problem:</b> 128M people watched Bad Bunny's Super Bowl halftime. Google Translate gave them "Uncle asked me" for "Titi Me Pregunt&oacute;." The music hits. The meaning doesn't.</p>
-        <p><b>What I built:</b> A Spotify-connected lyric sync engine with contextual translations. Poetry stays poetry. Slang stays slang.</p>
+        <p><b>Problem:</b> 128M people watched Bad Bunny's Super Bowl halftime, almost entirely in Spanish. Most couldn't follow the words, and word-for-word translation turns slang into nonsense. The music hits. The meaning doesn't.</p>
+        <p><b>What I built:</b> A Spotify-connected lyric sync engine: synced lyrics from LRCLIB, translated for meaning by Claude, with notes on slang and double meanings. Poetry stays poetry. Slang stays slang.</p>
         <div class="case-footer">
-          <div class="case-metrics"><div><div class="num">2K<span class="ac">+</span></div><div class="cap">users</div></div><div><div class="num">50<span class="ac">+</span></div><div class="cap">songs</div></div><div><div class="num">4</div><div class="cap">albums</div></div></div>
+          <div class="case-metrics"><div><div class="num">Live</div><div class="cap">demo</div></div><div><div class="num">6</div><div class="cap">languages</div></div><div><div class="num">Any</div><div class="cap">synced song</div></div></div>
           <span class="case-cta">&nearr; Open</span>
         </div>
       </a>
 
-      <div class="case sr">
+      <a href="https://tanhemdev.github.io/neurolearner/" target="_blank" rel="noopener" class="case sr" data-project>
         <div class="tags"><span class="tag">Accessibility</span><span class="tag">EdTech</span><span class="tag">Computer Vision</span></div>
         <h4>NeuroLearner: Gesture Platformer</h4>
         <div class="role">Product UX Intern &middot; Therapy Tales Clinic</div>
         <p><b>Problem:</b> Kids with motor and cognitive disabilities were locked out of learning games built for able-bodied play.</p>
-        <p><b>What I built:</b> OpenCV/MediaPipe hand-gesture tracking for an adaptive learning game. Designed with clinicians in a Mumbai speech clinic.</p>
+        <p><b>What I built:</b> A learning platformer you steer with your hand through a webcam (MediaPipe, plus an OpenCV desktop controller), calibrated to each child's range of motion. Shaped by my time at a Mumbai speech clinic.</p>
         <div class="case-footer">
-          <div class="case-metrics"><div><div class="num">Gesture<br>control</div><div class="cap">adaptive input</div></div><div><div class="num">Clinic<br>tested</div><div class="cap">with clinicians</div></div></div>
-          <span class="case-cta" style="opacity:.35">&nearr; Coming soon</span>
+          <div class="case-metrics"><div><div class="num">Live</div><div class="cap">play in browser</div></div><div><div class="num">4</div><div class="cap">ways to play</div></div></div>
+          <span class="case-cta">&nearr; Play</span>
         </div>
-      </div>
+      </a>
 
     </div>
   </div>

@@ -10,7 +10,8 @@ shortening the distance between thinking, building, testing, and learning
 ~> currently pm intern at lennox, built competitive specs across 150+ SKUs + pipelines that cut analysis turnaround 60%
 ~> prev ai product at kaiser permanente, scoped 3 ML features into production from 12+ clinician interviews
 ~> adobe student ambassador at berkeley (1 of 5 selected), running ai-first product workshops
-~> co-founder of tan-1 (glucose companion built for my twin sister tanisha, 92% accuracy across 10K+ readings) + curb (peer marketplace, 800+ items diverted from landfill)
+~> co-founder of tan-1 (glucose alerts built for my twin sister tanisha, flags 97% of lows ~21 min early in simulation) + curb (peer marketplace, 127 items listed in its first move-out pilot)
+~> building in public: tan-1, curb, lyricsync and neurolearner, each with a live demo, tests and ci
 ~> berkeley scet innovation fellow, skydeck ace intern, fung fellowship curriculum lead
 ~> fun fact: conversational in english, hindi, french, and punjabi
 ```
@@ -24,6 +25,8 @@ Product Manager, Associate Product Manager, APM, AI Product Manager, Healthtech 
 Human-Computer Interaction, HCI, UX Research, User Experience, Cognitive Science, Data Science,
 UC Berkeley, Kaiser Permanente, Lennox International, Adobe Student Ambassador,
 Fung Fellowship, Berkeley SCET, Skydeck, iOS Development, SwiftUI, Python, SQL, Figma,
+React, Next.js, JavaScript, scikit-learn, pandas, Supabase, PostgreSQL, Claude API, Playwright, GitHub Actions,
+MediaPipe, Computer Vision, Accessibility, LyricSync, NeuroLearner,
 Product Discovery, Roadmapping, User Research, Usability Testing, Prototyping, A/B Testing,
 RICE Prioritization, Machine Learning, Healthcare Technology, Digital Health, Consumer Products,
 Startups, Founder, Co-founder, TAN-1, Curb, CarePath, Lyric Lens, FanPass.

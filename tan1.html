@@ -194,6 +194,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;heigh
     <div class="nav-links">
       <a href="index.html" class="nav-pill back-link">&larr; Portfolio</a>
       <button class="nav-pill" id="ghBtn">GitHub &nearr;</button>
+      <a href="https://tanhemdev.github.io/TAN-1-PROTOTYPE/" target="_blank" rel="noopener" class="nav-pill accent">Caregiver demo &nearr;</a>
     </div>
   </div>
 </div>
@@ -203,13 +204,12 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;heigh
   <div class="modal">
     <button class="modal-close" id="ghClose">&times;</button>
     <h3>Technical Architecture</h3>
-    <p>TAN-1 ingests CGM data via the Dexcom G6/G7 API, computes rolling features (30/60/120 min averages, rate of change, time-in-range), and runs a gradient-boosted risk classifier. Alerts dispatch through a multi-tier escalation pipeline: push &rarr; SMS &rarr; phone call.</p>
+    <p>TAN-1 computes features from the last hour of CGM readings (level, rates of change, variability, a straight-line projection) and a gradient-boosted classifier forecasts the glucose range 30 minutes ahead. It's trained and tested on simulated patients from the open-source UVA/Padova simulator. The model runs in the browser, and plain-English alerts escalate if nobody acknowledges them. Tan-Bot answers questions with Claude, under strict safety rules.</p>
     <div class="tech-tags">
-      <span class="tech-tag">Python</span><span class="tech-tag">scikit-learn</span><span class="tech-tag">FastAPI</span>
-      <span class="tech-tag">React Native</span><span class="tech-tag">PostgreSQL + TimescaleDB</span>
-      <span class="tech-tag">Firebase Cloud Messaging</span><span class="tech-tag">Twilio</span>
+      <span class="tech-tag">Python</span><span class="tech-tag">scikit-learn</span><span class="tech-tag">pandas</span>
+      <span class="tech-tag">React</span><span class="tech-tag">Next.js</span><span class="tech-tag">Claude API</span><span class="tech-tag">GitHub Actions</span>
     </div>
-    <a href="https://github.com/tanhemdev/tan1-health" target="_blank" rel="noopener" class="modal-link">View source on GitHub &nearr;</a>
+    <a href="https://github.com/tanhemdev/TAN-1-PROTOTYPE" target="_blank" rel="noopener" class="modal-link">View source on GitHub &nearr;</a>
   </div>
 </div>
 
@@ -365,11 +365,11 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;heigh
 <div class="impact-banner">
   <div class="container">
     <div class="impact-label">Impact So Far</div>
-    <h3 class="impact-h">From a twin sister's diagnosis to a working clinical prototype.</h3>
-    <p class="impact-sub">TAN-1 was pitched to investors at Berkeley's BASICS accelerator and featured in UC Berkeley Letters &amp; Science News. The classifier has been validated against real CGM data.</p>
+    <h3 class="impact-h">From a twin sister's diagnosis to a working prototype.</h3>
+    <p class="impact-sub">TAN-1 was pitched to investors at Berkeley's BASICS accelerator and featured in UC Berkeley Letters &amp; Science News. The forecast model is trained and tested on simulated patients from the open-source UVA/Padova simulator: on 9 virtual patients it never saw, it flagged 97% of lows a median 21 minutes early, with 47% fewer false alarms than following the trend line. Validation on real, consented data comes next. <a href="https://tanhemdev.github.io/TAN-1-PROTOTYPE/" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600">Try the caregiver demo &nearr;</a></p>
     <div class="impact-grid">
-      <div class="impact-card"><div class="impact-val">92%</div><div class="impact-desc">Classifier Accuracy</div></div>
-      <div class="impact-card"><div class="impact-val">10K+</div><div class="impact-desc">CGM Readings Processed</div></div>
+      <div class="impact-card"><div class="impact-val">97%</div><div class="impact-desc">Lows Flagged Early (Simulated)</div></div>
+      <div class="impact-card"><div class="impact-val">87%</div><div class="impact-desc">30-Min Range Forecast (Simulated)</div></div>
       <div class="impact-card"><div class="impact-val">80+</div><div class="impact-desc">User Interviews</div></div>
       <div class="impact-card"><div class="impact-val">Berkeley</div><div class="impact-desc">L&S News Feature</div></div>
     </div>
@@ -377,9 +377,9 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;heigh
     <div class="next-section">
       <h4>What's Next</h4>
       <div class="next-list">
-        <div class="next-item"><span class="next-num">1</span>IRB approval for a 20-patient longitudinal study at UCSF Diabetes Center</div>
+        <div class="next-item"><span class="next-num">1</span>Validate the model on real, consented CGM data before any family pilot</div>
         <div class="next-item"><span class="next-num">2</span>Dexcom API integration for live CGM streaming (currently using simulated data)</div>
-        <div class="next-item"><span class="next-num">3</span>Family dashboard with multi-caregiver coordination and escalation chains</div>
+        <div class="next-item"><span class="next-num">3</span>Push notifications to caregivers' phones, and the peer community for people living with diabetes</div>
       </div>
     </div>
   </div>
