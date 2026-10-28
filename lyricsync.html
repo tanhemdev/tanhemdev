@@ -168,6 +168,7 @@ a{color:inherit;text-decoration:none}
     <div class="nav-links">
       <a href="index.html" class="nav-pill">&larr; Portfolio</a>
       <button class="nav-pill" id="ghBtn">GitHub</button>
+      <a href="https://github.com/tanhemdev/lyric-sync#chrome-extension-free" target="_blank" rel="noopener" class="nav-pill">Chrome extension</a>
       <a href="https://tanhemdev.github.io/lyric-sync/" target="_blank" rel="noopener" class="nav-pill green">Open the app &nearr;</a>
     </div>
   </div>
@@ -178,10 +179,11 @@ a{color:inherit;text-decoration:none}
   <div class="modal">
     <button class="modal-close" id="ghClose">&times;</button>
     <h3>Technical Architecture</h3>
-    <p>LyricSync follows what you play on Spotify (PKCE sign-in, read-only), fetches time-synced lyrics from LRCLIB, and translates each line for meaning with Claude, through a small serverless function that keeps the API key off the browser. A playback clock smooths Spotify's polling so the highlight stays on the beat. Poetry stays poetry. Slang stays slang.</p>
+    <p>LyricSync follows what you play on Spotify (PKCE sign-in, read-only), fetches time-synced lyrics from LRCLIB, and translates each line for meaning with Claude, through a small serverless function that keeps the API key off the browser. A playback clock smooths Spotify's polling so the highlight stays on the beat. A free Chrome extension does the same for the Spotify and Apple Music web players, translating on your own computer with Chrome's built-in translator. Poetry stays poetry. Slang stays slang.</p>
     <div class="tech-tags">
       <span class="tech-tag">React</span><span class="tech-tag">Spotify Web API (PKCE)</span><span class="tech-tag">LRCLIB</span>
-      <span class="tech-tag">Claude API</span><span class="tech-tag">Vercel Functions</span><span class="tech-tag">Playwright</span>
+      <span class="tech-tag">Claude API</span><span class="tech-tag">Vercel Functions</span><span class="tech-tag">Chrome extension (MV3)</span>
+      <span class="tech-tag">Chrome on-device Translator</span><span class="tech-tag">Playwright</span>
     </div>
     <a href="https://github.com/tanhemdev/lyric-sync" target="_blank" rel="noopener" class="modal-link">View source on GitHub &nearr;</a>
   </div>
@@ -218,17 +220,17 @@ a{color:inherit;text-decoration:none}
   <div class="container">
     <div class="impact-label">Where It Stands</div>
     <h3 class="impact-h">From a Super Bowl question to a working app.</h3>
-    <p class="impact-sub">The demo above runs the full pipeline on two original songs. Spotify mode works with any song that has synced lyrics on LRCLIB, and is tested end to end against stand-in servers; it goes live once it's deployed with a Spotify app and an API key.</p>
+    <p class="impact-sub">The demo above runs the full pipeline on two original songs. To follow your own music for free, the <a href="https://github.com/tanhemdev/lyric-sync#chrome-extension-free" target="_blank" rel="noopener" style="color:var(--green);font-weight:600">LyricSync Chrome extension</a> works with the Spotify and Apple Music web players: try DtMF by Bad Bunny, FAKE LOVE by BTS or Tum Hi Ho by Arijit Singh. Lyrics load live from LRCLIB and translation runs on your computer.</p>
     <div class="impact-grid">
       <div class="impact-card"><div class="impact-val">Any</div><div class="impact-desc">Song with synced lyrics</div></div>
-      <div class="impact-card"><div class="impact-val">6</div><div class="impact-desc">Target languages</div></div>
-      <div class="impact-card"><div class="impact-val">0</div><div class="impact-desc">Cost to replay a song (cached)</div></div>
-      <div class="impact-card"><div class="impact-val">30</div><div class="impact-desc">Unit tests, plus browser tests</div></div>
+      <div class="impact-card"><div class="impact-val">2</div><div class="impact-desc">Players: Spotify and Apple Music</div></div>
+      <div class="impact-card"><div class="impact-val">$0</div><div class="impact-desc">To run the extension</div></div>
+      <div class="impact-card"><div class="impact-val">54</div><div class="impact-desc">Unit tests, plus browser tests</div></div>
     </div>
     <div class="next-box">
       <h4>What's Next</h4>
       <div class="next-list">
-        <div class="next-item"><span class="next-num">1</span>Deploy Spotify mode for a small group of listeners and measure lyric coverage and songs per session</div>
+        <div class="next-item"><span class="next-num">1</span>Put the extension in front of a few listeners and measure lyric coverage and songs per session</div>
         <div class="next-item"><span class="next-num">2</span>"This line is wrong" feedback, so native speakers can flag translations</div>
         <div class="next-item"><span class="next-num">3</span>A mobile overlay that works while Spotify is in front</div>
       </div>
