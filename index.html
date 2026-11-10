@@ -194,6 +194,83 @@ footer h3{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);
   .lead-top{flex-direction:column;gap:4px}
   .about-meta{flex-direction:column;gap:20px}
 }
+
+/* ══════════════════════════════════════════════════════════════
+   TANYA'S LITTLE GUIDE  (thg)
+   One illustrated character acts out the tagline next to it,
+   looping through thinking, building, testing and learning.
+   ══════════════════════════════════════════════════════════════ */
+.hero-row{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(28px,5vw,72px);align-items:end}
+@media(max-width:860px){.hero-row{grid-template-columns:1fr;gap:36px}}
+.hero-tagline [data-w]{background:linear-gradient(#FDB515,#FDB515) 0 100%/0% 2px no-repeat;transition:background-size .45s cubic-bezier(.16,1,.3,1)}
+.hero-tagline [data-w].on{background-size:100% 2px}
+
+.thg{
+  --thg-ink:#1d1d1f;
+  --thg-line:color-mix(in srgb,var(--text) 55%,transparent);
+  --thg-faint:color-mix(in srgb,var(--text) 16%,transparent);
+  --skin:#c68863;--skin-d:#ad7350;--hair:#2a1b14;
+  --top:#FDB515;--denim:#3f6fb5;--denim-d:#2d5291;
+  --stride:.36s;
+  user-select:none;-webkit-user-select:none
+}
+.thg-stage{position:relative;width:100%;aspect-ratio:640/170}
+.thg svg{display:block;width:100%;height:100%;overflow:hidden}
+
+/* sticker strokes, like the Curb hero */
+.thg-art :is(rect,circle,ellipse,path,polygon){stroke:var(--thg-ink);stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round}
+.thg-art .ns{stroke:none}
+:root:not([data-theme="light"]) .thg-art{filter:url(#thg-sticker)}
+.thg-bgart{fill:none;stroke:var(--thg-faint);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.thg-txt{font-family:var(--mono);font-weight:700;fill:var(--thg-ink);stroke:none}
+
+/* scenes */
+.thg-player .pose,.thg-player .prop{display:none}
+.thg-player[data-pose="think"] .pose-think,
+.thg-player[data-pose="run"] .pose-run,
+.thg-player[data-pose="learn"] .pose-learn,
+.thg-player[data-mode="build"] .prop-laptop,
+.thg-player[data-mode="test"] .prop-paddle{display:inline}
+.thg-player .pose{transition:opacity .25s}
+.thg-player.swap .pose{opacity:0}
+
+/* running: every limb hangs from a 0,0 joint so rotate() swings it */
+.thg-leg-f{animation:thg-swing var(--stride) ease-in-out infinite alternate}
+.thg-leg-b{animation:thg-swing var(--stride) ease-in-out infinite alternate-reverse}
+.thg-arm-b{animation:thg-swing var(--stride) ease-in-out infinite alternate}
+@keyframes thg-swing{from{transform:rotate(-34deg)}to{transform:rotate(34deg)}}
+.thg-pony{animation:thg-pony calc(var(--stride) * 2) ease-in-out infinite}
+@keyframes thg-pony{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(14deg)}}
+.thg-player[data-mode="build"] .thg-arm-f{transform:rotate(-78deg)}
+.thg-player[data-mode="build"] .thg-arm-b{animation:none;transform:rotate(-55deg)}
+.thg-player[data-mode="test"] .thg-arm-f{transform:rotate(-80deg)}
+.thg-arm-f{animation:thg-swing var(--stride) ease-in-out infinite alternate-reverse}
+.thg-player:is([data-mode="build"],[data-mode="test"]) .thg-arm-f{animation:none}
+.thg-pball{animation:thg-bounce .3s cubic-bezier(.2,.6,.4,1) infinite alternate}
+@keyframes thg-bounce{from{transform:translateY(0)}to{transform:translateY(-22px)}}
+
+/* story beats: on-b1, on-b2, on-b3 get added as the scene moves along */
+.thg .bt{transform-box:fill-box;transform-origin:0% 100%;transform:scale(0);opacity:0;transition:transform .32s cubic-bezier(.3,1.6,.5,1),opacity .18s}
+.thg .bt.check{transform-origin:0% 50%}
+.thg .bt.thg-bulb{transform-origin:50% 70%}
+.thg.on-b1 .bt.b1,.thg.on-b2 .bt.b2,.thg.on-b3 .bt.b3{transform:none;opacity:1}
+.thg-q{transition:opacity .25s}
+.thg.on-b2 .thg-q{opacity:0}
+.thg-raise{transform:rotate(115deg);transition:transform .4s cubic-bezier(.3,1.4,.5,1)}
+.thg.on-b1 .thg-raise{transform:none;animation:thg-wave .45s .45s 4 alternate ease-in-out}
+@keyframes thg-wave{from{transform:none}to{transform:rotate(14deg)}}
+
+/* poof when she switches scenes */
+.thg-poof circle{fill:var(--thg-faint);stroke:none;opacity:0;transform-box:fill-box;transform-origin:center}
+.thg-poof.go circle{animation:thg-poof .55s ease-out both}
+@keyframes thg-poof{0%{opacity:1;transform:scale(.3)}100%{opacity:0;transform:scale(1.8)}}
+
+/* offscreen or tab hidden: hold still */
+.thg.paused *{animation-play-state:paused!important}
+
+@media (prefers-reduced-motion: reduce){
+  .thg *,.thg{animation:none!important;transition:none!important}
+}
 </style>
 </head>
 <body>
@@ -216,7 +293,142 @@ footer h3{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);
 <header class="hero">
   <div class="wrap">
     <h1 class="hero-name"><span class="glitch" data-text="Tanya Hemdev">Tanya Hemdev</span></h1>
-    <p class="hero-tagline">Shortening the distance between <em>thinking, building, testing,</em> and <em>learning.</em></p>
+    <div class="hero-row">
+      <p class="hero-tagline">Shortening the distance between <em><span data-w="think">thinking</span>, <span data-w="build">building</span>, <span data-w="test">testing</span>,</em> and <em><span data-w="learn">learning</span>.</em></p>
+      <div class="thg" id="thg">
+        <div class="thg-stage" role="img" aria-label="Illustration of Tanya thinking through a coding problem, building on her laptop, testing with a ping pong rally, and answering a question in class.">
+          <svg viewBox="0 70 640 170" aria-hidden="true">
+            <defs>
+              <filter id="thg-sticker" x="-30%" y="-30%" width="160%" height="160%">
+                <feMorphology in="SourceAlpha" operator="dilate" radius="1.7" result="d"/>
+                <feFlood flood-color="#f2efe8"/>
+                <feComposite in2="d" operator="in" result="edge"/>
+                <feMerge><feMergeNode in="edge"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+
+            <g class="thg-bgl thg-bgart"></g>
+            <path d="M0 206 H640" style="stroke:var(--thg-line);stroke-width:1.5"/>
+            <g class="thg-pebl thg-bgart"></g>
+
+            <g class="thg-poof" transform="translate(84 196)">
+              <circle cx="-14" cy="-6" r="9"/><circle cx="4" cy="-14" r="11"/><circle cx="20" cy="-4" r="8"/><circle cx="-2" cy="2" r="7"/>
+            </g>
+
+            <g class="thg-player thg-art" data-pose="think" data-mode="build" transform="translate(84 206)">
+
+              <!-- ── thinking ── -->
+              <g class="pose pose-think">
+                <g transform="translate(-7 -64)"><g class="thg-pony">
+                  <path d="M0 0 C-11 -3 -18 6 -15 18 C-11 11 -6 7 1 6 Z" fill="var(--hair)"/>
+                  <circle cx="-1" cy="2" r="2.4" fill="var(--top)"/>
+                </g></g>
+                <rect x="-4" y="-44" width="6" height="18" rx="3" fill="var(--skin-d)"/>
+                <g transform="translate(-3 -27)">
+                  <rect x="-3.6" y="0" width="7.2" height="21" rx="3.6" fill="var(--denim-d)"/>
+                  <path d="M-4.5 18.5 H5 Q9 18.5 9 22.5 V24 H-4.5 Z" fill="#ffffff"/>
+                </g>
+                <rect x="-9" y="-49" width="18" height="25" rx="7" fill="var(--top)"/>
+                <g transform="translate(3 -27)">
+                  <rect x="-3.6" y="0" width="7.2" height="21" rx="3.6" fill="var(--denim)"/>
+                  <path d="M-4.5 18.5 H5 Q9 18.5 9 22.5 V24 H-4.5 Z" fill="#ffffff"/>
+                  <path class="ns" d="M-4.5 23 H9" style="stroke:#e60023;stroke-width:2"/>
+                </g>
+                <circle cx="1" cy="-60" r="10.5" fill="var(--skin)"/>
+                <path d="M-9.6 -56 C-11.5 -67 -3 -72.5 3.5 -71.5 C9.5 -70.5 13 -65.5 11.8 -60.5 C6 -63.5 0 -63 -3.5 -61 C-5.5 -58.5 -6.5 -55.5 -9.6 -56 Z" fill="var(--hair)"/>
+                <circle class="ns" cx="7.2" cy="-60.5" r="1.5" fill="var(--thg-ink)"/>
+                <path d="M5.5 -53.6 h3" fill="none" style="stroke-width:1.5"/>
+                <path d="M3 -44 L12.5 -35 L9 -50.5" fill="none" style="stroke:var(--thg-ink);stroke-width:8.399999999999999"/><path class="ns" d="M3 -44 L12.5 -35 L9 -50.5" fill="none" style="stroke:var(--skin);stroke-width:5.6"/>
+                <circle cx="9" cy="-50.5" r="3.3" fill="var(--skin)"/>
+                <!-- the problem she's chewing on, then the idea -->
+                <circle class="bt b1" style="transition-delay:0s" cx="17" cy="-75" r="2.6" fill="#ffffff"/>
+                <circle class="bt b1" style="transition-delay:.1s" cx="24" cy="-84" r="3.8" fill="#ffffff"/>
+                <g class="bt b1" style="transition-delay:.2s">
+                  <rect x="28" y="-134" width="84" height="44" rx="18" fill="#ffffff"/>
+                  <g class="thg-q">
+                    <path class="ns" d="M40 -122 h12 M44 -114 h20 M44 -106 h10 M40 -98 h16" style="stroke:#9aa0a8;stroke-width:2.2"/>
+                    <path class="ns" d="M56 -122 h7 M58 -106 h8" style="stroke:#2563eb;stroke-width:2.2"/>
+                    <path class="ns" d="M44 -110.5 q2.5 2.2 5 0 t5 0 t5 0 t5 0" fill="none" style="stroke:#e60023;stroke-width:1.4"/>
+                    <text x="84" y="-104" class="thg-txt" font-size="22">?</text>
+                  </g>
+                  <g class="bt b2 thg-bulb">
+                    <path class="ns" d="M56 -126 l-3 -3 M84 -126 l3 -3 M55 -114 h-4 M85 -114 h4" style="stroke:var(--top);stroke-width:2.2"/>
+                    <circle cx="70" cy="-115" r="10" fill="var(--top)"/>
+                    <path d="M66.5 -116 q3.5 -4.5 7 0" fill="none" style="stroke-width:1.4"/>
+                    <rect x="65.5" y="-106.5" width="9" height="6" rx="1.5" fill="#d3d6db"/>
+                  </g>
+                </g>
+              </g>
+
+              <!-- ── on foot (building / testing) ── -->
+              <g class="pose pose-run">
+                <g transform="translate(-7 -64)"><g class="thg-pony">
+                  <path d="M0 0 C-11 -3 -18 6 -15 18 C-11 11 -6 7 1 6 Z" fill="var(--hair)"/>
+                  <circle cx="-1" cy="2" r="2.4" fill="var(--top)"/>
+                </g></g>
+                <g transform="translate(-1 -44)"><g class="thg-arm-b">
+                  <rect x="-3" y="0" width="6" height="18" rx="3" fill="var(--skin-d)"/>
+                </g></g>
+                <g transform="translate(-2 -27)"><g class="thg-leg-b">
+                  <rect x="-3.6" y="0" width="7.2" height="21" rx="3.6" fill="var(--denim-d)"/>
+                  <path d="M-4.5 18.5 H5 Q9 18.5 9 22.5 V24 H-4.5 Z" fill="#ffffff"/>
+                </g></g>
+                <rect x="-9" y="-49" width="18" height="25" rx="7" fill="var(--top)"/>
+                <g transform="translate(2 -27)"><g class="thg-leg-f">
+                  <rect x="-3.6" y="0" width="7.2" height="21" rx="3.6" fill="var(--denim)"/>
+                  <path d="M-4.5 18.5 H5 Q9 18.5 9 22.5 V24 H-4.5 Z" fill="#ffffff"/>
+                  <path class="ns" d="M-4.5 23 H9" style="stroke:#e60023;stroke-width:2"/>
+                </g></g>
+                <circle cx="1" cy="-60" r="10.5" fill="var(--skin)"/>
+                <path d="M-9.6 -56 C-11.5 -67 -3 -72.5 3.5 -71.5 C9.5 -70.5 13 -65.5 11.8 -60.5 C6 -63.5 0 -63 -3.5 -61 C-5.5 -58.5 -6.5 -55.5 -9.6 -56 Z" fill="var(--hair)"/>
+                <circle class="ns" cx="6.5" cy="-58.5" r="1.5" fill="var(--thg-ink)"/>
+                <path d="M5 -53.5 q2.6 1.6 5 -0.4" fill="none" style="stroke-width:1.5"/>
+                <circle class="ns" cx="3" cy="-54.5" r="2" fill="#ef8a8a" opacity=".55"/>
+
+                <!-- laptop (building) -->
+                <g class="prop prop-laptop">
+                  <path d="M25 -40 L31.5 -60 L17.5 -62 L12.5 -41 Z" fill="#2b2d31"/>
+                  <path class="ns" d="M18.5 -56 h6 M17.6 -52 h9 M16.8 -48 h5" style="stroke:#7ee787;stroke-width:1.7"/>
+                  <path class="ns" d="M23.5 -48 h3" style="stroke:#ffa657;stroke-width:1.7"/>
+                  <rect x="7" y="-42.5" width="21" height="4" rx="1.5" fill="#d3d6db"/>
+                </g>
+
+                <g transform="translate(2 -44)"><g class="thg-arm-f">
+                  <rect x="-3" y="0" width="6" height="18" rx="3" fill="var(--skin)"/>
+                  <!-- paddle (testing) -->
+                  <g class="prop prop-paddle">
+                    <rect x="-1.8" y="15" width="3.6" height="8" rx="1.4" fill="#cf9b5c"/>
+                    <circle cx="0" cy="29.5" r="7.5" fill="#e60023"/>
+                  </g>
+                </g></g>
+                <g class="prop prop-paddle"><g class="thg-pball">
+                  <circle cx="33" cy="-56" r="4.4" fill="#ffffff"/>
+                </g></g>
+              </g>
+
+              <!-- ── learning: in class, answering ── -->
+              <g class="pose pose-learn">
+                <rect x="142" y="-44" width="3.5" height="44" rx="1.5" fill="#9aa0a8"/>
+                <rect x="196" y="-44" width="3.5" height="44" rx="1.5" fill="#9aa0a8"/>
+                <rect x="132" y="-98" width="76" height="54" rx="4" fill="#ffffff"/>
+                <path class="ns" d="M140 -88 h22 M140 -80 h32 M140 -72 h16" style="stroke:#9aa0a8;stroke-width:2"/>
+                <text x="140" y="-52" class="thg-txt" font-size="13">O(?)</text>
+                <path class="bt b3 check" d="M180 -61 l5 5 l10 -12" fill="none" style="stroke:#00a551;stroke-width:3.2"/>
+                <g transform="translate(-62 0)"><rect x="-17" y="-44" width="4.5" height="44" rx="2" fill="#cf9b5c"/><rect x="-17" y="-23" width="21" height="4.5" rx="2" fill="#cf9b5c"/><rect x="0" y="-19" width="3.5" height="19" rx="1.5" fill="#cf9b5c"/><rect x="-10" y="-48" width="16" height="25" rx="6.5" fill="#3bb8a5"/><path d="M-3 -24 H11 V-5" fill="none" style="stroke:var(--thg-ink);stroke-width:8.399999999999999"/><path class="ns" d="M-3 -24 H11 V-5" fill="none" style="stroke:var(--denim);stroke-width:5.6"/><rect x="8" y="-5.5" width="10" height="5.5" rx="2" fill="#ffffff"/><rect x="9" y="-34" width="31" height="5" rx="2" fill="#e9e4da"/><rect x="33" y="-29" width="4" height="29" rx="1.5" fill="#e9e4da"/><rect class="ns" x="20" y="-36.5" width="12" height="2.6" rx="1" fill="#ffffff"/><g transform="translate(-1 -58)"><circle cx="-8" cy="-9" r="5" fill="#1f1410"/><circle cx="0" cy="0" r="10" fill="#8d5a3b"/><path d="M-10.6 4 C-12.5 -7 -4 -12.5 2.5 -11.5 C8.5 -10.5 12 -5.5 10.8 -0.5 C5 -3.5 -1 -3 -4.5 -1 C-6.5 1.5 -7.5 4.5 -10.6 4 Z" fill="#1f1410"/><circle class="ns" cx="5.5" cy="1.2" r="1.4" fill="var(--thg-ink)"/><path d="M4.2 6 q2.4 1.5 4.6 -0.4" fill="none" style="stroke-width:1.4"/></g><path d="M0 -43 L14 -35" fill="none" style="stroke:var(--thg-ink);stroke-width:8.399999999999999"/><path class="ns" d="M0 -43 L14 -35" fill="none" style="stroke:#8d5a3b;stroke-width:5.6"/></g>
+                <g transform="translate(66 0)"><rect x="-17" y="-44" width="4.5" height="44" rx="2" fill="#cf9b5c"/><rect x="-17" y="-23" width="21" height="4.5" rx="2" fill="#cf9b5c"/><rect x="0" y="-19" width="3.5" height="19" rx="1.5" fill="#cf9b5c"/><rect x="-10" y="-48" width="16" height="25" rx="6.5" fill="#ff8a7a"/><path d="M-3 -24 H11 V-5" fill="none" style="stroke:var(--thg-ink);stroke-width:8.399999999999999"/><path class="ns" d="M-3 -24 H11 V-5" fill="none" style="stroke:var(--denim);stroke-width:5.6"/><rect x="8" y="-5.5" width="10" height="5.5" rx="2" fill="#ffffff"/><rect x="9" y="-34" width="31" height="5" rx="2" fill="#e9e4da"/><rect x="33" y="-29" width="4" height="29" rx="1.5" fill="#e9e4da"/><rect class="ns" x="20" y="-36.5" width="12" height="2.6" rx="1" fill="#ffffff"/><g transform="translate(-1 -58)"><path d="M-11 -2 C-12 6 -9 11 -4 11 L-3 0 Z" fill="#b8692a"/><circle cx="0" cy="0" r="10" fill="#f0c7a4"/><path d="M-10.6 4 C-12.5 -7 -4 -12.5 2.5 -11.5 C8.5 -10.5 12 -5.5 10.8 -0.5 C5 -3.5 -1 -3 -4.5 -1 C-6.5 1.5 -7.5 4.5 -10.6 4 Z" fill="#b8692a"/><circle class="ns" cx="5.5" cy="1.2" r="1.4" fill="var(--thg-ink)"/><path d="M4.2 6 q2.4 1.5 4.6 -0.4" fill="none" style="stroke-width:1.4"/></g><path d="M0 -43 L14 -35" fill="none" style="stroke:var(--thg-ink);stroke-width:8.399999999999999"/><path class="ns" d="M0 -43 L14 -35" fill="none" style="stroke:#f0c7a4;stroke-width:5.6"/></g>
+                <g transform="translate(0 0)"><rect x="-17" y="-44" width="4.5" height="44" rx="2" fill="#cf9b5c"/><rect x="-17" y="-23" width="21" height="4.5" rx="2" fill="#cf9b5c"/><rect x="0" y="-19" width="3.5" height="19" rx="1.5" fill="#cf9b5c"/><rect x="-10" y="-48" width="16" height="25" rx="6.5" fill="var(--top)"/><path d="M-3 -24 H11 V-5" fill="none" style="stroke:var(--thg-ink);stroke-width:8.399999999999999"/><path class="ns" d="M-3 -24 H11 V-5" fill="none" style="stroke:var(--denim);stroke-width:5.6"/><rect x="8" y="-5.5" width="10" height="5.5" rx="2" fill="#ffffff"/><rect x="9" y="-34" width="31" height="5" rx="2" fill="#e9e4da"/><rect x="33" y="-29" width="4" height="29" rx="1.5" fill="#e9e4da"/><rect class="ns" x="20" y="-36.5" width="12" height="2.6" rx="1" fill="#ffffff"/><g transform="translate(-1 -58)"><g transform="translate(-8 -4)"><path d="M0 0 C-11 -3 -18 6 -15 18 C-11 11 -6 7 1 6 Z" fill="var(--hair)"/><circle cx="-1" cy="2" r="2.4" fill="var(--top)"/></g><circle cx="0" cy="0" r="10" fill="var(--skin)"/><path d="M-10.6 4 C-12.5 -7 -4 -12.5 2.5 -11.5 C8.5 -10.5 12 -5.5 10.8 -0.5 C5 -3.5 -1 -3 -4.5 -1 C-6.5 1.5 -7.5 4.5 -10.6 4 Z" fill="var(--hair)"/><circle class="ns" cx="5.5" cy="1.2" r="1.4" fill="var(--thg-ink)"/><path d="M4.2 6 q2.4 1.5 4.6 -0.4" fill="none" style="stroke-width:1.4"/></g><g transform="translate(1 -44)"><g class="thg-raise"><path d="M0 0 L4 -25" fill="none" style="stroke:var(--thg-ink);stroke-width:8.399999999999999"/><path class="ns" d="M0 0 L4 -25" fill="none" style="stroke:var(--skin);stroke-width:5.6"/><circle cx="4.3" cy="-27.5" r="3.6" fill="var(--skin)"/></g></g></g>
+                <g class="bt b2">
+                  <path d="M22 -83 L16 -73 L31 -83 Z" fill="#ffffff"/>
+                  <rect x="14" y="-102" width="42" height="20" rx="8" fill="#ffffff"/>
+                  <path class="ns" d="M21 -83 H31" style="stroke:#ffffff;stroke-width:3"/>
+                  <text x="35" y="-88" text-anchor="middle" class="thg-txt" font-size="10.5">O(n)</text>
+                </g>
+              </g>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
   </div>
 
 </header>
@@ -599,5 +811,91 @@ footer h3{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);
   }
 })();
 </script>
+<script>
+/* ════════ Tanya's little guide ════════ */
+(function(){
+  const NS='http://www.w3.org/2000/svg', W=640, GROUND=206, PX=84;
+  const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const POSE={think:'think',build:'run',test:'run',learn:'learn'};
+  // where each story beat lands, as a fraction of the scene
+  const BEATS={think:[.05,.6],build:[],test:[],learn:[.06,.32,.58]};
+  const heroBox=document.getElementById('thg');
+  if(!heroBox) return;
+  const heroSvg=heroBox.querySelector('svg');
+
+  const el=m=>{const g=document.createElementNS(NS,'g');g.innerHTML=m;return g};
+  const wrap=(x,lo,hi)=>{const s=hi-lo;while(x<lo)x+=s;while(x>hi)x-=s;return x};
+
+  function makeStage(box){
+    const svg=box.querySelector('svg');
+    const player=svg.querySelector('.thg-player'), poof=svg.querySelector('.thg-poof');
+    const bg=[
+      {k:.12,x:300,y:100,max:W+100,g:el('<path d="M0 0 H46 A9 9 0 0 0 37 -11 A13 13 0 0 0 12 -13 A8 8 0 0 0 0 0"/>')},
+      {k:.12,x:470,y:88, max:W+100,g:el('<path d="M0 0 H34 A7 7 0 0 0 27 -9 A10 10 0 0 0 8 -10 A6 6 0 0 0 0 0"/>')},
+      {k:.22,x:540,y:GROUND,max:W+400,g:el('<path d="M0 0 V-74 H16 V0 M-3 -74 H19 M0 -74 L8 -90 L16 -74 M8 -90 V-95 M4 -66 H12 V-58 H4 Z M5 -40 V-20 M11 -40 V-20"/>')}
+    ];
+    bg.forEach(b=>svg.querySelector('.thg-bgl').appendChild(b.g));
+    const pebs=[];
+    for(let i=0;i<16;i++){const p={x:Math.random()*W,y:GROUND+5+Math.random()*12};p.g=el(`<path d="M0 0 h${(2+Math.random()*5).toFixed(1)}"/>`);svg.querySelector('.thg-pebl').appendChild(p.g);pebs.push(p)}
+    let act=null, beat=-1, dir=1;
+    const place=()=>player.setAttribute('transform',`translate(${PX} ${GROUND})`+(dir<0&&POSE[act]==='run'?' scale(-1 1)':''));
+    const render=()=>{
+      for(const b of bg) b.g.setAttribute('transform',`translate(${b.x.toFixed(1)} ${b.y})`);
+      for(const p of pebs) p.g.setAttribute('transform',`translate(${p.x.toFixed(1)} ${p.y.toFixed(1)})`);
+    };
+    const api={
+      get act(){return act},
+      set(a,animate){
+        if(a===act) return;
+        act=a; box.dataset.act=a; player.dataset.mode=a; player.dataset.pose=POSE[a]; dir=1; place();
+        beat=-1; api.beat(0);
+        if(animate){
+          poof.classList.remove('go');void poof.getBBox();poof.classList.add('go');
+          player.classList.add('swap');requestAnimationFrame(()=>requestAnimationFrame(()=>player.classList.remove('swap')));
+        }
+      },
+      beat(p){
+        const n=reduce?(BEATS[act]||[]).length:(BEATS[act]||[]).filter(v=>p>=v).length;
+        if(n===beat) return; beat=n;
+        for(let k=1;k<=3;k++) box.classList.toggle('on-b'+k,n>=k);
+      },
+      face(d){if(d!==dir){dir=d;place()}},
+      move(dx){
+        for(const b of bg) b.x=wrap(b.x-dx*b.k,-60,b.max);
+        for(const p of pebs) p.x=wrap(p.x-dx,-8,W+8);
+        render();
+      }
+    };
+    render();
+    return api;
+  }
+
+  /* ── hero: plays the four scenes on a loop, underlining each word ── */
+  (function(){
+    const stage=makeStage(heroBox);
+    const words=[...document.querySelectorAll('.hero-tagline [data-w]')];
+    const PHASES=[{act:'think',ms:3000,speed:0},{act:'build',ms:2800,speed:150},{act:'test',ms:2800,speed:150},{act:'learn',ms:3200,speed:0}];
+    let i=0,t=0,speed=0,last=0,raf=0,onScreen=true;
+    function show(n,animate){stage.set(PHASES[n].act,animate);words.forEach(w=>w.classList.toggle('on',w.dataset.w===PHASES[n].act))}
+    function frame(now){
+      const dt=Math.min((now-last)/1000,1/30);last=now;t+=dt*1000;
+      if(t>=PHASES[i].ms){t=0;i=(i+1)%PHASES.length;show(i,true)}
+      stage.beat(t/PHASES[i].ms);
+      speed+=(PHASES[i].speed-speed)*Math.min(1,dt*3);
+      stage.move(speed*dt);
+      raf=requestAnimationFrame(frame);
+    }
+    const play=()=>{if(raf||!onScreen||document.hidden)return;heroBox.classList.remove('paused');last=performance.now();raf=requestAnimationFrame(frame)};
+    const stop=()=>{if(raf)cancelAnimationFrame(raf);raf=0;heroBox.classList.add('paused')};
+    show(0,false);
+    if(reduce){setInterval(()=>{if(!document.hidden){i=(i+1)%PHASES.length;show(i,false);stage.beat(1)}},3500);stage.beat(1);return}
+    document.addEventListener('visibilitychange',()=>document.hidden?stop():play());
+    if('IntersectionObserver' in window) new IntersectionObserver(es=>es.forEach(e=>{onScreen=e.isIntersecting;onScreen?play():stop()})).observe(heroBox);
+    play();
+  })();
+
+})();
+</script>
+
 </body>
 </html>
